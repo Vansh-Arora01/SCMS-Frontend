@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useApi } from "../../hooks/useApi";
 import { staffService } from "../../services/staff.service";
-import { MailCheck, MailWarning, Shield, Building2, ClipboardList } from "lucide-react";
+import { MailCheck, MailWarning, Shield, Building2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 const StaffProfile = () => {
   const { user } = useAuth();

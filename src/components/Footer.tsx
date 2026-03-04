@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { fadeInUp } from '../utils/animations.ts';
+// import { fadeInUp } from '../utils/animations.ts';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

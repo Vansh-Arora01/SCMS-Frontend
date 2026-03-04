@@ -27,21 +27,24 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   }, [user]);
 
   useEffect(() => {
-  if (!user) return;
+    if (!user) return;
 
-  fetchNotifications();
-  const interval = setInterval(fetchNotifications, 30000);
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
 
-  return () => clearInterval(interval);
-}, [user, fetchNotifications]);
-
+    return () => clearInterval(interval);
+  }, [user, fetchNotifications]);
 
   const markAsRead = async (notificationId: string) => {
     try {
       await notificationService.markAsRead(notificationId);
+
       setNotifications((prev) =>
-        prev.map((n) => (n.id === notificationId ? { ...n, isRead: true } : n))
+        prev.map((n) =>
+          n._id === notificationId ? { ...n, isRead: true } : n
+        )
       );
+
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
@@ -51,7 +54,11 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const markAllAsRead = async () => {
     try {
       await notificationService.markAllAsRead();
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+
+      setNotifications((prev) =>
+        prev.map((n) => ({ ...n, isRead: true }))
+      );
+
       setUnreadCount(0);
     } catch (error) {
       console.error('Failed to mark all as read:', error);
@@ -66,8 +73,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         loading,
         fetchNotifications,
         markAsRead,
-        markAllAsRead 
-        
+        markAllAsRead
       }}
     >
       {children}

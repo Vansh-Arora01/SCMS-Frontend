@@ -4,7 +4,7 @@ import { LayoutDashboard, FileText, Vote, Bell, User, Home } from "lucide-react"
 import { useAuth } from "../../hooks/useAuth";
 import StudentHeader from "../../components/student/StudentHeader";
 import ChangePassword from "../../components/shared/ChangePassword";
-import ComplaintModal from "../../components/student/ComplaintModal";
+// import ComplaintModal from "../../components/student/ComplaintModal";
 import { useState } from "react";
 const StudentDashboard = () => {
   const [openModal, setOpenModal] = useState(false);

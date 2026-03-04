@@ -1,7 +1,7 @@
 export type NotificationType = "RESOLVED" | 'ASSIGNED' | 'REJECTED' | 'error';
 
 export interface Notification {
-  id: string;
+  _id: string;
   userId: string;
   type: NotificationType;
   title: string;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { Calendar, Mail, Lock, Eye, EyeOff, Loader2, BadgeCheck } from "lucide-react";
+import { Calendar, Mail,  Eye, EyeOff, Loader2, BadgeCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../../hooks/useAuth";
 

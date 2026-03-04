@@ -2,7 +2,7 @@ import api from "./api";
 import {
   LoginCredentials,
   AuthResponse,
-  User,
+  
 } from "../types/auth.types";
 
 export const authService = {

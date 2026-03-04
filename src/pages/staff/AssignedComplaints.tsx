@@ -2,7 +2,7 @@ import { useApi } from "../../hooks/useApi";
 import { staffService } from "../../services/staff.service";
 import ComplaintCard from "../../components/staff/ComplaintCard";
 import EmptyState from "../../components/staff/EmptyState";
-import { ClipboardList, Clock, CheckCircle,ArrowRight } from "lucide-react";
+import { ClipboardList, Clock, CheckCircle} from "lucide-react";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";

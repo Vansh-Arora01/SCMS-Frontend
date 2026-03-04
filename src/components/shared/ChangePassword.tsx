@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyRound, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { KeyRound,  Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 const ChangePassword: React.FC = () => {
