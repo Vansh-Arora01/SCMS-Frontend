@@ -15,11 +15,13 @@ export const formatRelativeTime = (date: string | Date): string => {
 };
 
 export const getStatusBadgeClass = (status: ComplaintStatus): string => {
-  return COMPLAINT_STATUSES[status]?.color || 'bg-gray-100 text-gray-800';
+  const key = status.toLowerCase() as keyof typeof COMPLAINT_STATUSES;
+  return COMPLAINT_STATUSES[key]?.color || 'bg-gray-100 text-gray-800';
 };
 
 export const getPriorityBadgeClass = (priority: ComplaintPriority): string => {
-  return COMPLAINT_PRIORITIES[priority]?.color || 'bg-gray-100 text-gray-800';
+  const key = priority.toLowerCase() as keyof typeof COMPLAINT_PRIORITIES;
+  return COMPLAINT_PRIORITIES[key]?.color || 'bg-gray-100 text-gray-800';
 };
 
 export const truncateText = (text: string, maxLength: number): string => {
