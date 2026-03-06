@@ -1,5 +1,14 @@
 import { Outlet, NavLink } from "react-router-dom";
-import { LayoutDashboard, FileText, Vote, Bell, User, Home } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  Vote,
+  Bell,
+  User,
+  Home,
+  Menu,
+  X,
+} from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import StudentHeader from "../../components/student/StudentHeader";
 import ChangePassword from "../../components/shared/ChangePassword";
@@ -7,6 +16,7 @@ import { useState } from "react";
 
 const StudentDashboard = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useAuth();
 
   const navItemStyle = ({ isActive }: { isActive: boolean }) =>
@@ -25,8 +35,28 @@ const StudentDashboard = () => {
         <div className="absolute -bottom-40 -right-40 w-80 h-80 lg:w-96 lg:h-96 bg-purple-500/10 blur-[140px] rounded-full" />
       </div>
 
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-60 lg:w-72 bg-slate-900/60 backdrop-blur-xl border-r border-slate-800 p-4 lg:p-6 flex flex-col z-10">
+      <aside
+        className={`fixed md:relative top-0 left-0 h-full w-64 lg:w-72 flex-shrink-0 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800 p-4 lg:p-6 flex flex-col z-40 transform transition-transform duration-300
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0`}
+      >
+
+        {/* Close button (mobile) */}
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="absolute top-4 right-4 md:hidden text-white"
+        >
+          <X size={22} />
+        </button>
 
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8 lg:mb-10">
@@ -68,11 +98,10 @@ const StudentDashboard = () => {
 
         </nav>
 
-        {/* User Info Section */}
+        {/* User Info */}
         <div className="mt-auto pt-6 border-t border-slate-800">
           <div className="flex items-center gap-3">
 
-            {/* Avatar */}
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">
               {user?.name
                 ? user.name
@@ -83,7 +112,6 @@ const StudentDashboard = () => {
                 : "U"}
             </div>
 
-            {/* User Details */}
             <div>
               <p className="text-sm font-semibold text-white">
                 {user?.name || "Loading..."}
@@ -98,41 +126,50 @@ const StudentDashboard = () => {
 
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative z-0 overflow-hidden">
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col relative z-0 min-w-0 w-full">
 
-        <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto space-y-6 lg:space-y-8">
+        <div className="flex-1 px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 overflow-y-auto space-y-6 lg:space-y-8">
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700"
+            >
+              <Menu size={22} />
+            </button>
+          </div>
 
           {/* Header */}
           <StudentHeader setOpenModal={setOpenModal} />
 
-          {/* Dynamic Content */}
+          {/* Dynamic Page */}
           <Outlet />
-
-          {/* Change Password Modal */}
-          {openModal && (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-
-              <div className="relative w-full max-w-4xl px-4">
-
-                {/* Close Button */}
-                <button
-                  onClick={() => setOpenModal(false)}
-                  className="absolute top-4 right-4 text-white text-xl hover:opacity-70"
-                >
-                  ✕
-                </button>
-
-                <ChangePassword />
-
-              </div>
-
-            </div>
-          )}
 
         </div>
 
       </main>
+
+      {/* Change Password Modal */}
+      {openModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
+          <div className="relative w-full max-w-4xl px-4">
+
+            <button
+              onClick={() => setOpenModal(false)}
+              className="absolute top-4 right-4 text-white text-xl hover:opacity-70"
+            >
+              ✕
+            </button>
+
+            <ChangePassword />
+
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

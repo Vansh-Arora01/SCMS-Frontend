@@ -26,7 +26,6 @@ const ComplaintDetails = () => {
 
   const complaint = data?.data;
 
-  /* 🔄 AUTO REFRESH (Every 10s, stops if resolved) */
   useEffect(() => {
     if (!complaint || complaint.status === "RESOLVED") return;
 
@@ -75,31 +74,30 @@ const ComplaintDetails = () => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="space-y-8"
+      className="space-y-6 md:space-y-8"
     >
-      <h1 className="text-3xl font-bold text-white">
+      <h1 className="text-2xl md:text-3xl font-bold text-white">
         Complaint Details
       </h1>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 
         {/* LEFT SIDE */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-5 md:space-y-6">
 
-          {/* Complaint Info */}
-          <div className="bg-slate-900/70 backdrop-blur-xl p-8 rounded-2xl border border-slate-700 shadow-lg space-y-5">
-            <h2 className="text-2xl font-semibold text-white">
+          <div className="bg-slate-900/70 backdrop-blur-xl p-4 md:p-8 rounded-2xl border border-slate-700 shadow-lg space-y-4 md:space-y-5">
+            <h2 className="text-xl md:text-2xl font-semibold text-white">
               {complaint.title}
             </h2>
 
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-slate-300 leading-relaxed text-sm md:text-base">
               {complaint.description}
             </p>
 
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-3 md:gap-4 items-center">
               <StatusBadge status={complaint.status} />
 
-              <span className="text-slate-400 text-sm">
+              <span className="text-slate-400 text-xs md:text-sm">
                 Created: {new Date(complaint.createdAt).toLocaleString()}
               </span>
 
@@ -116,27 +114,25 @@ const ComplaintDetails = () => {
             </div>
           </div>
 
-          {/* Resolution Summary */}
           {complaint.resolutionNote && (
-            <div className="bg-green-500/10 border border-green-500/30 p-6 rounded-2xl backdrop-blur-xl">
+            <div className="bg-green-500/10 border border-green-500/30 p-4 md:p-6 rounded-2xl backdrop-blur-xl">
               <h3 className="text-green-400 font-semibold mb-3">
                 Resolution Summary
               </h3>
 
-              <p className="text-slate-300 whitespace-pre-line leading-relaxed">
+              <p className="text-slate-300 whitespace-pre-line leading-relaxed text-sm md:text-base">
                 {complaint.resolutionNote}
               </p>
             </div>
           )}
 
-          {/* Attachments */}
           {attachments.length > 0 && (
-            <div className="bg-slate-900/70 backdrop-blur-xl p-6 rounded-2xl border border-slate-700 space-y-4">
-              <h3 className="text-xl font-semibold">
+            <div className="bg-slate-900/70 backdrop-blur-xl p-4 md:p-6 rounded-2xl border border-slate-700 space-y-4">
+              <h3 className="text-lg md:text-xl font-semibold">
                 Attachments ({attachments.length})
               </h3>
 
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {attachments.map((file: string, index: number) => (
                   <div
                     key={index}
@@ -145,14 +141,12 @@ const ComplaintDetails = () => {
                     <img
                       src={file}
                       alt="attachment"
-                      className="w-full h-40 object-cover"
+                      className="w-full h-36 md:h-40 object-cover"
                     />
 
                     <button
                       onClick={() => setPreviewFile(file)}
-                      className="absolute inset-0 bg-black/60 opacity-0 
-                      group-hover:opacity-100 flex items-center 
-                      justify-center text-white transition"
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition"
                     >
                       <Eye size={20} />
                     </button>
@@ -164,11 +158,10 @@ const ComplaintDetails = () => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="space-y-6">
+        <div className="space-y-5 md:space-y-6">
 
-          {/* Status Update */}
-          <div className="bg-slate-900/70 backdrop-blur-xl p-6 rounded-2xl border border-slate-700 space-y-4">
-            <h3 className="text-lg font-semibold">
+          <div className="bg-slate-900/70 backdrop-blur-xl p-4 md:p-6 rounded-2xl border border-slate-700 space-y-4">
+            <h3 className="text-base md:text-lg font-semibold">
               Update Status
             </h3>
 
@@ -188,8 +181,7 @@ const ComplaintDetails = () => {
               selectedStatus === "IN_PROGRESS") && (
               <textarea
                 placeholder="Write resolution/rejection note..."
-                className="w-full bg-slate-800 text-white p-3 rounded-lg 
-                border border-slate-700 focus:border-indigo-500"
+                className="w-full bg-slate-800 text-white p-3 rounded-lg border border-slate-700 focus:border-indigo-500"
                 rows={4}
                 value={resolutionNote}
                 onChange={(e) => setResolutionNote(e.target.value)}
@@ -215,23 +207,20 @@ const ComplaintDetails = () => {
                 });
               }}
               disabled={!selectedStatus || updating}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 
-              px-6 py-2 rounded-lg transition disabled:opacity-50"
+              className="w-full bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-lg transition disabled:opacity-50"
             >
               {updating ? "Updating..." : "Update Status"}
             </button>
           </div>
 
-          {/* Reassignment */}
-          <div className="bg-slate-900/70 backdrop-blur-xl p-6 rounded-2xl border border-slate-700 space-y-4">
-            <h3 className="text-lg font-semibold">
+          <div className="bg-slate-900/70 backdrop-blur-xl p-4 md:p-6 rounded-2xl border border-slate-700 space-y-4">
+            <h3 className="text-base md:text-lg font-semibold">
               Request Reassignment
             </h3>
 
             <textarea
               placeholder="Enter reason..."
-              className="w-full bg-slate-800 text-white p-3 rounded-lg 
-              border border-slate-700 focus:border-red-500"
+              className="w-full bg-slate-800 text-white p-3 rounded-lg border border-slate-700 focus:border-red-500"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
@@ -241,8 +230,7 @@ const ComplaintDetails = () => {
                 requestReassign(id as string, reason)
               }
               disabled={!reason || requesting}
-              className="w-full bg-red-600 hover:bg-red-500 
-              px-6 py-2 rounded-lg transition disabled:opacity-50"
+              className="w-full bg-red-600 hover:bg-red-500 px-6 py-2 rounded-lg transition disabled:opacity-50"
             >
               {requesting ? "Submitting..." : "Request Reassignment"}
             </button>
@@ -252,13 +240,11 @@ const ComplaintDetails = () => {
 
       {/* Preview Modal */}
       {previewFile && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md 
-        z-50 flex items-center justify-center">
-          <div className="relative max-w-5xl w-full mx-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="relative max-w-5xl w-full">
             <button
               onClick={() => setPreviewFile(null)}
-              className="absolute top-4 right-4 bg-slate-800 
-              w-10 h-10 rounded-full flex items-center justify-center"
+              className="absolute top-4 right-4 bg-slate-800 w-10 h-10 rounded-full flex items-center justify-center"
             >
               <X size={18} />
             </button>

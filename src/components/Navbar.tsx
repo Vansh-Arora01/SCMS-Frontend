@@ -2,10 +2,13 @@ import { motion } from 'framer-motion';
 import { fadeIn } from '../utils/animations.ts';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.ts';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   const handleDashboardRedirect = () => {
     if (!user) return;
@@ -25,15 +28,17 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const navLinks = ['Home', 'Features', 'How It Works', 'Impact', 'About'];
+
   return (
     <motion.nav
       initial="hidden"
       animate="visible"
       variants={fadeIn}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
+      className="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-4"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="glass-card px-6 py-3 flex items-center justify-between">
+        <div className="glass-card px-4 md:px-6 py-3 flex items-center justify-between">
 
           {/* Logo */}
           <motion.div
@@ -41,17 +46,17 @@ const Navbar: React.FC = () => {
             whileHover={{ scale: 1.02 }}
             onClick={() => navigate('/')}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center font-bold text-white">
+            <div className="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center font-bold text-white">
               SC
             </div>
-            <span className="text-xl font-bold text-gradient">
+            <span className="text-lg md:text-xl font-bold text-gradient">
               Smart Complaints
             </span>
           </motion.div>
 
-          {/* Navigation Links */}
+          {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8">
-            {['Home', 'Features', 'How It Works', 'Impact', 'About'].map((item) => (
+            {navLinks.map((item) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
@@ -64,26 +69,22 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-3">
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex items-center gap-3">
 
-            {/* If NOT logged in */}
             {!user && (
               <>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate('/login')}
-                  className="hidden sm:block px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors"
+                  className="px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors"
                 >
                   Sign In
                 </motion.button>
 
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: '0 10px 40px rgba(168, 85, 247, 0.4)'
-                  }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate('/register')}
                   className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg font-medium text-sm text-white shadow-lg shadow-purple-500/30"
@@ -93,7 +94,6 @@ const Navbar: React.FC = () => {
               </>
             )}
 
-            {/* If logged in */}
             {user && (
               <>
                 <motion.button
@@ -121,9 +121,80 @@ const Navbar: React.FC = () => {
                 </motion.button>
               </>
             )}
-
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenu(!mobileMenu)}
+            className="md:hidden text-white"
+          >
+            {mobileMenu ? <X size={26} /> : <Menu size={26} />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenu && (
+          <div className="md:hidden mt-3 glass-card p-4 space-y-4">
+
+            {navLinks.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                className="block text-gray-300 hover:text-white"
+                onClick={() => setMobileMenu(false)}
+              >
+                {item}
+              </a>
+            ))}
+
+            <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
+
+              {!user && (
+                <>
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="w-full py-2 text-gray-300 border border-white/10 rounded-lg"
+                  >
+                    Sign In
+                  </button>
+
+                  <button
+                    onClick={() => navigate('/register')}
+                    className="w-full py-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg text-white"
+                  >
+                    Get Started
+                  </button>
+                </>
+              )}
+
+              {user && (
+                <>
+                  <button
+                    onClick={handleDashboardRedirect}
+                    className="w-full py-2 bg-purple-600 text-white rounded-lg"
+                  >
+                    {user.role === 'ADMIN'
+                      ? 'Admin Dashboard'
+                      : user.role === 'STAFF'
+                      ? 'Staff Dashboard'
+                      : user.role === 'STUDENT'
+                      ? 'Student Dashboard'
+                      : 'Dashboard'}
+                  </button>
+
+                  <button
+                    onClick={logout}
+                    className="w-full py-2 text-red-400 border border-red-400 rounded-lg"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+
+            </div>
+          </div>
+        )}
+
       </div>
     </motion.nav>
   );

@@ -34,25 +34,29 @@ export default function StaffHeader({ setOpenModal }: Props) {
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 flex justify-between items-center shadow-lg"
+      className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 shadow-lg"
     >
       {/* Gradient Glow */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/5 to-indigo-500/5 pointer-events-none" />
 
-      {/* Left Section */}
-      <div className="flex items-center gap-4 z-10">
+      {/* LEFT SECTION */}
+      <div className="flex items-center gap-3 md:gap-4 z-10 min-w-0">
+
         {/* Avatar */}
-        <div className="w-14 h-14 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/30">
+        <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-base md:text-lg shadow-lg shadow-blue-500/30 flex-shrink-0">
           {initials}
         </div>
 
-        <div>
-          <h1 className="text-2xl font-semibold text-white">
+        {/* User Info */}
+        <div className="min-w-0">
+          <h1 className="text-lg md:text-2xl font-semibold text-white truncate">
             Staff Panel — {user?.name}
           </h1>
 
-          <div className="flex items-center gap-2 mt-1">
-            <p className="text-slate-400 text-sm">{user?.email}</p>
+          <div className="flex flex-wrap items-center gap-2 mt-1">
+            <p className="text-slate-400 text-xs md:text-sm truncate">
+              {user?.email}
+            </p>
 
             {user?.isEmailVerified ? (
               <span className="flex items-center gap-1 text-green-400 text-xs bg-green-500/10 px-2 py-1 rounded-full border border-green-500/30">
@@ -69,13 +73,13 @@ export default function StaffHeader({ setOpenModal }: Props) {
         </div>
       </div>
 
-      {/* Right Section */}
-      <div className="flex gap-3 z-10">
+      {/* RIGHT SECTION */}
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 z-10 w-full md:w-auto">
 
-        {/* View Assigned Complaints */}
+        {/* Assigned Complaints */}
         <button
           onClick={() => navigate("/staff/assigned")}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 transition text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-600/30"
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 transition text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-600/30 w-full sm:w-auto"
         >
           <ClipboardList size={16} />
           Assigned Complaints
@@ -85,7 +89,7 @@ export default function StaffHeader({ setOpenModal }: Props) {
         {!user?.isEmailVerified && (
           <button
             onClick={resendVerification}
-            className="flex items-center gap-2 px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-lg text-sm font-medium border border-yellow-500/30 transition"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-lg text-sm font-medium border border-yellow-500/30 transition w-full sm:w-auto"
           >
             <MailWarning size={16} />
             Verify Email
@@ -93,13 +97,14 @@ export default function StaffHeader({ setOpenModal }: Props) {
         )}
 
         {/* Change Password */}
-       <button
-  onClick={() => setOpenModal(true)}
-  className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition"
->
-  <KeyRound size={16} />
-  Change Password
-</button>
+        <button
+          onClick={() => setOpenModal(true)}
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition w-full sm:w-auto"
+        >
+          <KeyRound size={16} />
+          Change Password
+        </button>
+
       </div>
     </motion.div>
   );

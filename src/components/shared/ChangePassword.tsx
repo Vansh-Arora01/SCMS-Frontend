@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyRound,  Eye, EyeOff, Loader2 } from "lucide-react";
+import { KeyRound, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 const ChangePassword: React.FC = () => {
@@ -31,44 +31,55 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#071122] via-[#0d1116] to-[#071021] flex items-center justify-center p-4">
+    <div className="w-full flex items-center justify-center p-2 sm:p-4">
       <div className="w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl border border-transparent relative">
-        <div className="flex flex-col md:flex-row h-full">
+
+        <div className="flex flex-col md:flex-row">
 
           {/* LEFT PANEL */}
-          <div className="md:w-5/12 p-6 md:p-10 bg-gradient-to-br from-[#b45b1f] via-[#6f2b0b] to-[#0b1116] text-white flex flex-col justify-between">
+          <div className="md:w-5/12 p-5 sm:p-6 md:p-10 bg-gradient-to-br from-[#b45b1f] via-[#6f2b0b] to-[#0b1116] text-white flex flex-col justify-between">
+
             <div>
-              <p className="text-xs tracking-widest mb-4 opacity-80">
+              <p className="text-xs tracking-widest mb-3 opacity-80">
                 ACCOUNT SECURITY
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
+
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-3 md:mb-4">
                 Change your password
               </h2>
+
               <p className="text-sm opacity-80 max-w-md">
                 Keep your account secure by updating your password regularly.
               </p>
             </div>
 
-            <div className="pt-6 text-xs opacity-80">
+            <div className="pt-4 md:pt-6 text-xs opacity-80">
               <p className="mb-1 font-medium">🔐 Security Tip</p>
               <p className="max-w-xs">
                 Use a strong password with letters, numbers and symbols.
               </p>
             </div>
+
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="md:w-7/12 bg-[#060612] p-6 md:p-10 text-white flex flex-col">
+          <div className="md:w-7/12 bg-[#060612] p-5 sm:p-6 md:p-10 text-white flex flex-col">
+
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#ffb86b] to-[#ff6a3a] flex items-center justify-center">
-                <KeyRound className="w-6 h-6 text-[#071021]" />
+
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-[#ffb86b] to-[#ff6a3a] flex items-center justify-center">
+                <KeyRound className="w-5 h-5 sm:w-6 sm:h-6 text-[#071021]" />
               </div>
+
               <div>
-                <h3 className="text-2xl font-bold">Update Password</h3>
-                <p className="text-sm text-gray-400 mt-1">
+                <h3 className="text-xl sm:text-2xl font-bold">
+                  Update Password
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-400 mt-1">
                   Enter your current and new password
                 </p>
               </div>
+
             </div>
 
             {success ? (
@@ -83,6 +94,7 @@ const ChangePassword: React.FC = () => {
                   <label className="block text-xs text-gray-400 mb-2">
                     CURRENT PASSWORD
                   </label>
+
                   <div className="relative">
                     <input
                       type={showOld ? "text" : "password"}
@@ -91,6 +103,7 @@ const ChangePassword: React.FC = () => {
                       placeholder="Enter current password"
                       className="w-full bg-transparent border-b border-gray-700 py-2 px-2 pr-10 outline-none focus:border-[#ff9a5a]"
                     />
+
                     <button
                       type="button"
                       onClick={() => setShowOld(!showOld)}
@@ -106,6 +119,7 @@ const ChangePassword: React.FC = () => {
                   <label className="block text-xs text-gray-400 mb-2">
                     NEW PASSWORD
                   </label>
+
                   <div className="relative">
                     <input
                       type={showNew ? "text" : "password"}
@@ -114,6 +128,7 @@ const ChangePassword: React.FC = () => {
                       placeholder="Enter new password"
                       className="w-full bg-transparent border-b border-gray-700 py-2 px-2 pr-10 outline-none focus:border-[#ff9a5a]"
                     />
+
                     <button
                       type="button"
                       onClick={() => setShowNew(!showNew)}
@@ -139,14 +154,16 @@ const ChangePassword: React.FC = () => {
                     "Change Password"
                   )}
                 </button>
+
               </form>
             )}
 
-            <div className="text-center mt-auto pt-6">
+            <div className="text-center mt-6 md:mt-auto pt-4 md:pt-6">
               <p className="text-sm text-gray-500">
                 Smart Complaint Management System
               </p>
             </div>
+
           </div>
         </div>
 
@@ -160,6 +177,7 @@ const ChangePassword: React.FC = () => {
             border: "1px solid rgba(255,80,50,0.12)",
           }}
         />
+
       </div>
     </div>
   );

@@ -1,27 +1,3 @@
-// import UnassignedComplaints from "./UnassignedComplaints.tsx";
-// import SortedComplaints from "./SortedComplaints.tsx";
-// import ManageStaff from "./ManageStaff.tsx";
-// import AdminProfile from "./AdminProfile.tsx";
-
-// const AdminDashboard = () => {
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#1e1b4b] text-white p-10">
-
-//       <h1 className="text-4xl font-bold mb-12 text-indigo-400">
-//         Admin Dashboard
-//       </h1>
-
-//       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-//         <UnassignedComplaints />
-//         <SortedComplaints />
-//         <ManageStaff />
-//         <AdminProfile />
-//       </div>
-
-//     </div>
-//   );
-// };
-
 import { Outlet, NavLink } from "react-router-dom";
 import { useState } from "react";
 import AdminHeader from "../../components/admin/AdminHeader";
@@ -31,11 +7,12 @@ const AdminDashboard = () => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#1e1b4b] text-white p-10">
+    <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#1e1b4b] text-white px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8">
 
       <AdminHeader setOpenModal={setOpenModal} />
 
-      <div className="flex gap-6 mt-10 mb-10 border-b border-white/10 pb-4">
+      {/* Navigation */}
+      <div className="flex flex-wrap gap-4 md:gap-6 mt-6 md:mt-10 mb-6 md:mb-10 border-b border-white/10 pb-4 text-sm md:text-base">
 
         <NavLink
           to="/"
@@ -95,24 +72,31 @@ const AdminDashboard = () => {
 
       </div>
 
-      <Outlet />
+      {/* Page Content */}
+      <div className="w-full max-w-7xl mx-auto">
+        <Outlet />
+      </div>
 
+      {/* Change Password Modal */}
       {openModal && (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-    <div className="relative w-full max-w-4xl">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
-      {/* Close Button */}
-      <button
-        onClick={() => setOpenModal(false)}
-        className="absolute top-4 right-4 text-white text-xl hover:opacity-70"
-      >
-        ✕
-      </button>
+          <div className="relative w-full max-w-4xl">
 
-      <ChangePassword />
-    </div>
-  </div>
-)}
+            {/* Close Button */}
+            <button
+              onClick={() => setOpenModal(false)}
+              className="absolute top-4 right-4 text-white text-xl hover:opacity-70"
+            >
+              ✕
+            </button>
+
+            <ChangePassword />
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

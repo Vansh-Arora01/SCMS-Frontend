@@ -19,9 +19,10 @@ export default function ComplaintTracker({ status }: Props) {
     (currentIndex / (steps.length - 1)) * 100;
 
   return (
-    <div className="mt-6">
+    <div className="mt-5 md:mt-6">
+
       {/* Progress Line Background */}
-      <div className="relative w-full h-1 bg-slate-800 rounded-full mb-6">
+      <div className="relative w-full h-1 bg-slate-800 rounded-full mb-5 md:mb-6">
 
         {/* Animated Progress Fill */}
         <motion.div
@@ -34,6 +35,7 @@ export default function ComplaintTracker({ status }: Props) {
 
       {/* Steps */}
       <div className="flex justify-between relative">
+
         {steps.map((step, index) => {
           const isCompleted = index < currentIndex;
           const isCurrent = index === currentIndex;
@@ -41,14 +43,15 @@ export default function ComplaintTracker({ status }: Props) {
           return (
             <div
               key={step}
-              className="flex flex-col items-center relative flex-1"
+              className="flex flex-col items-center relative flex-1 text-center"
             >
+
               {/* Step Circle */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: index * 0.1 }}
-                className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                className={`w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                   isCompleted
                     ? "bg-green-500 border-green-500 shadow-lg shadow-green-500/40"
                     : isCurrent
@@ -57,10 +60,10 @@ export default function ComplaintTracker({ status }: Props) {
                 }`}
               >
                 {isCompleted ? (
-                  <CheckCircle2 size={16} className="text-white" />
+                  <CheckCircle2 size={14} className="text-white" />
                 ) : (
                   <Circle
-                    size={12}
+                    size={10}
                     className={
                       isCurrent
                         ? "text-white"
@@ -72,7 +75,7 @@ export default function ComplaintTracker({ status }: Props) {
 
               {/* Step Label */}
               <span
-                className={`mt-2 text-xs font-medium tracking-wide ${
+                className={`mt-2 text-[10px] sm:text-xs md:text-sm font-medium tracking-wide ${
                   isCompleted
                     ? "text-green-400"
                     : isCurrent
@@ -82,9 +85,11 @@ export default function ComplaintTracker({ status }: Props) {
               >
                 {step.replace("_", " ")}
               </span>
+
             </div>
           );
         })}
+
       </div>
     </div>
   );
