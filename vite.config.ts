@@ -12,6 +12,7 @@ export default defineConfig({
         short_name: 'SCMS',
         description: 'Complaint Management System for Students',
         theme_color: '#2563eb',
+        display: "standalone",
         icons: [
           {
             src: 'SCMS_logo.png',
