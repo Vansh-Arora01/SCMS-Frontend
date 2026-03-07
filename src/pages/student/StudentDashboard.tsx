@@ -76,7 +76,7 @@ const StudentDashboard = () => {
             Home
           </NavLink>
 
-          <NavLink to="/student" end className={navItemStyle}>
+          <NavLink to="/student/mycomplaints" end className={navItemStyle}>
             <FileText size={18} />
             My Complaints
           </NavLink>

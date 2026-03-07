@@ -18,6 +18,7 @@ import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 
 // Student
 import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentHome from "./pages/student/StudentHome";
 import MyComplaints from "./pages/student/MyComplaints";
 import VoteableComplaints from "./pages/student/VoteableComplaints";
 import Notifications from "./pages/student/Notifications";
@@ -61,7 +62,9 @@ const App: React.FC = () => {
             </RoleProtectedRoute>
           }
         >
-          <Route index element={<MyComplaints />} />
+          {/* <Route index element={<MyComplaints />} /> */}
+          <Route index element={<StudentHome />} />
+           <Route path="mycomplaints" element={<MyComplaints />} />
           <Route path="voteable" element={<VoteableComplaints />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="profile" element={<StudentProfile />} />

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo } from "react";
 import { Complaint } from "../../types/complaint.types";
-import { useComplaintService } from "../../services/complaint.service";
+
 import { motion } from "framer-motion";
 import { FileText, Clock, Loader, CheckCircle, ThumbsUp } from "lucide-react";
 
@@ -11,24 +11,11 @@ interface Stats {
   resolved: number;
   totalVotes: number;
 }
-
-export default function StatsSection() {
-  const { getMyComplaints } = useComplaintService();
-  const [complaints, setComplaints] = useState<Complaint[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        const data = await getMyComplaints();
-        setComplaints(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchComplaints();
-  }, []);
+interface Props {
+  complaints: Complaint[];
+}
+export default function StatsSection({ complaints }: Props) {
+ 
 
   const stats: Stats = useMemo(() => {
     return {
@@ -73,18 +60,18 @@ export default function StatsSection() {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-6">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 animate-pulse"
-          />
-        ))}
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-6">
+  //       {[...Array(5)].map((_, i) => (
+  //         <div
+  //           key={i}
+  //           className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 animate-pulse"
+  //         />
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-6">
