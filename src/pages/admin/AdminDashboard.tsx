@@ -186,7 +186,13 @@ import {
   Pie,
   Cell,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend
 } from "recharts";
 
 const COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#3b82f6"];
@@ -199,11 +205,23 @@ const AdminDashboard = () => {
   const location = useLocation();
   const isMainDashboard = location.pathname === "/admin";
 
+
   const { getAdminStats } = useAdminService();
+
 
   const { data, loading } = useApi(getAdminStats, { immediate: true });
 
-  const stats = data?.data || {};
+  
+// console.log("ADMIN STATS:", data);
+
+  const stats = data?.data?.data || {};
+
+
+  const statusChartData = [
+  { name: "Resolved", value: stats.resolvedComplaints || 0 },
+  { name: "Pending", value: stats.pendingComplaints || 0 },
+  { name: "Unassigned", value: stats.unassignedComplaints || 0 },
+];
 
   const navItemStyle = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-3 lg:px-4 py-2 lg:py-3 rounded-xl transition-all duration-300 ${
@@ -389,34 +407,109 @@ const AdminDashboard = () => {
           )}
 
           {/* Category Chart */}
-          {isMainDashboard && !loading && categoryChartData.length > 0 && (
-            <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-6 backdrop-blur-xl">
+          {isMainDashboard && !loading && (
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-              <h3 className="text-lg font-semibold mb-6">
-                Complaints by Category
-              </h3>
+    {/* Category Pie Chart */}
+    <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-6 backdrop-blur-xl 
+transition-all duration-300 
+hover:border-indigo-500/40 
+hover:shadow-lg hover:shadow-indigo-500/20">
 
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
+      <h3 className="text-lg font-semibold mb-4">
+        Complaints by Category
+      </h3>
 
-                  <Pie
-                    data={categoryChartData}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius={110}
-                  >
-                    {categoryChartData.map((_:any, index: number) => (
-  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-))}
-                  </Pie>
+      <ResponsiveContainer width="100%" height={280}>
+        <PieChart>
+          <Pie
+            data={categoryChartData}
+            dataKey="value"
+            nameKey="name"
+            outerRadius={100}
+            label
+          >
+            {categoryChartData.map((_:any, index:number) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
 
-                  <Tooltip />
+    </div>
 
-                </PieChart>
-              </ResponsiveContainer>
+    {/* Status Donut Chart */}
+    <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-6 backdrop-blur-xl 
+transition-all duration-300 
+hover:border-indigo-500/40 
+hover:shadow-lg hover:shadow-indigo-500/20">
 
-            </div>
-          )}
+      <h3 className="text-lg font-semibold mb-4">
+        Complaint Status
+      </h3>
+
+      <ResponsiveContainer width="100%" height={280}>
+        <PieChart>
+          <Pie
+            data={statusChartData}
+            dataKey="value"
+            nameKey="name"
+            innerRadius={60}
+            outerRadius={100}
+          >
+            {statusChartData.map((_:any, index:number) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+
+    </div>
+
+  </div>
+)}
+{isMainDashboard && !loading && (
+  <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-6 backdrop-blur-xl 
+transition-all duration-300 
+hover:border-indigo-500/40 
+hover:shadow-lg hover:shadow-indigo-500/20">
+
+    <h3 className="text-lg font-semibold mb-4">
+      Complaint Overview
+    </h3>
+
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={[
+          { name: "Total", value: stats.totalComplaints || 0 },
+          { name: "Resolved", value: stats.resolvedComplaints || 0 },
+          { name: "Pending", value: stats.pendingComplaints || 0 },
+          { name: "Staff", value: stats.totalStaff || 0 }
+        ]}
+      >
+
+        <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+
+        <XAxis dataKey="name" stroke="#94a3b8" />
+        <YAxis stroke="#94a3b8" />
+
+        <Tooltip />
+
+        <Legend />
+
+        <Bar
+          dataKey="value"
+          fill="#6366f1"
+          radius={[6,6,0,0]}
+        />
+
+      </BarChart>
+    </ResponsiveContainer>
+
+  </div>
+)}
 
           {/* Nested Routes */}
           <Outlet />
