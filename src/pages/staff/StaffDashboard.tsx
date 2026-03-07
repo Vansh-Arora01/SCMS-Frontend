@@ -1,6 +1,6 @@
 import StaffSidebar from "../../components/staff/StaffSidebar";
 import StaffHeader from "../../components/staff/StaffHeader";
-import ChangePassword from "../../components/shared/ChangePassword";
+
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useMemo } from "react";
@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 
 const StaffDashboard = () => {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
+  
   const location = useLocation();
   const isMainDashboard = location.pathname === "/staff";
 
@@ -52,7 +52,7 @@ const StaffDashboard = () => {
         transition={{ duration: 0.4 }}
         className="flex-1 px-4 sm:px-6 md:px-8 py-6 md:py-8 flex flex-col gap-6 md:gap-8 relative z-10"
       >
-        <StaffHeader setOpenModal={setOpenModal} />
+        <StaffHeader  />
 
         {/* Stats Section */}
         {isMainDashboard && !loading && (
@@ -137,23 +137,7 @@ const StaffDashboard = () => {
       </motion.div>
 
       {/* Change Password Modal */}
-      {openModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
-
-          <div className="relative w-full max-w-3xl rounded-2xl bg-slate-900 border border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.6)] overflow-hidden">
-
-            <button
-              onClick={() => setOpenModal(false)}
-              className="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-slate-800/80 hover:bg-slate-700 border border-slate-600 text-white transition"
-            >
-              ✕
-            </button>
-
-            <ChangePassword />
-
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

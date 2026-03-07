@@ -8,7 +8,7 @@ interface Props {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AdminHeader({ setOpenModal }: Props) {
+export default function AdminHeader() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -41,7 +41,6 @@ export default function AdminHeader({ setOpenModal }: Props) {
 
       {/* LEFT SECTION */}
       <div className="flex items-center gap-3 md:gap-4 z-10 min-w-0">
-
         {/* Avatar */}
         <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-base md:text-lg shadow-lg shadow-indigo-500/30 flex-shrink-0">
           {initials}
@@ -75,7 +74,6 @@ export default function AdminHeader({ setOpenModal }: Props) {
 
       {/* RIGHT SECTION */}
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 z-10 w-full md:w-auto">
-
         {/* Create Staff */}
         <button
           type="button"
@@ -99,15 +97,12 @@ export default function AdminHeader({ setOpenModal }: Props) {
         )}
 
         {/* Change Password */}
-        <button
-          type="button"
-          onClick={() => setOpenModal(true)}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition w-full sm:w-auto"
-        >
-          <KeyRound size={16} />
-          Change Password
-        </button>
-
+       <button
+  onClick={() => navigate("/account/change-password")}
+  className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition w-full sm:w-auto"
+>
+  🔑 Change Password
+</button>
       </div>
     </motion.div>
   );

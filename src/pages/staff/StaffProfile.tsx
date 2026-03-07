@@ -1,10 +1,19 @@
 import { motion } from "framer-motion";
 import { useApi } from "../../hooks/useApi";
 import { staffService } from "../../services/staff.service";
-import { MailCheck, MailWarning, Shield, Building2 } from "lucide-react";
+import {
+  MailCheck,
+  MailWarning,
+  Shield,
+  Building2,
+  LogOut
+} from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
 const StaffProfile = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const { data, loading } = useApi(
     staffService.getStaffProfile,
@@ -12,6 +21,11 @@ const StaffProfile = () => {
   );
 
   const profile = data?.data;
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/", { replace: true });
+  };
 
   if (loading)
     return (
@@ -36,53 +50,72 @@ const StaffProfile = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="max-w-5xl mx-auto bg-slate-900/60 backdrop-blur-xl 
-      border border-slate-800 rounded-2xl p-8 shadow-lg space-y-8"
+      border border-slate-800 rounded-2xl p-6 md:p-8 shadow-lg space-y-8"
     >
+
       {/* Header Section */}
-      <div className="flex items-center gap-6">
-        <div className="w-20 h-20 rounded-2xl 
-        bg-gradient-to-tr from-blue-500 to-indigo-600 
-        flex items-center justify-center text-white 
-        text-2xl font-bold shadow-lg shadow-blue-500/30">
-          {initials}
-        </div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
 
-        <div>
-          <h1 className="text-2xl font-semibold text-white">
-            {user?.name}
-          </h1>
+        <div className="flex items-center gap-6">
 
-          <div className="flex items-center gap-3 mt-2 flex-wrap">
-
-            {/* Role Badge */}
-            <span className="px-3 py-1 text-xs 
-            bg-blue-500/10 text-blue-400 
-            border border-blue-500/30 
-            rounded-full flex items-center gap-1">
-              <Shield size={12} />
-              {profile.role || "STAFF"}
-            </span>
-
-            {/* Email Verification */}
-            {user?.isEmailVerified ? (
-              <span className="px-3 py-1 text-xs 
-              bg-green-500/10 text-green-400 
-              border border-green-500/30 
-              rounded-full flex items-center gap-1">
-                <MailCheck size={12} />
-                Verified
-              </span>
-            ) : (
-              <span className="px-3 py-1 text-xs 
-              bg-yellow-500/10 text-yellow-400 
-              border border-yellow-500/30 
-              rounded-full flex items-center gap-1">
-                <MailWarning size={12} />
-                Not Verified
-              </span>
-            )}
+          <div className="w-20 h-20 rounded-2xl 
+          bg-gradient-to-tr from-blue-500 to-indigo-600 
+          flex items-center justify-center text-white 
+          text-2xl font-bold shadow-lg shadow-blue-500/30">
+            {initials}
           </div>
+
+          <div>
+            <h1 className="text-2xl font-semibold text-white">
+              {user?.name}
+            </h1>
+
+            <div className="flex items-center gap-3 mt-2 flex-wrap">
+
+              {/* Role Badge */}
+              <span className="px-3 py-1 text-xs 
+              bg-blue-500/10 text-blue-400 
+              border border-blue-500/30 
+              rounded-full flex items-center gap-1">
+                <Shield size={12} />
+                {profile.role || "STAFF"}
+              </span>
+
+              {/* Email Verification */}
+              {user?.isEmailVerified ? (
+                <span className="px-3 py-1 text-xs 
+                bg-green-500/10 text-green-400 
+                border border-green-500/30 
+                rounded-full flex items-center gap-1">
+                  <MailCheck size={12} />
+                  Verified
+                </span>
+              ) : (
+                <span className="px-3 py-1 text-xs 
+                bg-yellow-500/10 text-yellow-400 
+                border border-yellow-500/30 
+                rounded-full flex items-center gap-1">
+                  <MailWarning size={12} />
+                  Not Verified
+                </span>
+              )}
+            </div>
+          </div>
+
         </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 
+          bg-red-600 hover:bg-red-500 
+          text-white text-sm font-medium 
+          rounded-lg transition shadow-lg shadow-red-600/30"
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
+
       </div>
 
       {/* Info Grid */}
@@ -104,15 +137,6 @@ const StaffProfile = () => {
             {user?.department || "N/A"}
           </p>
         </div>
-
-        {/* Assigned Complaints */}
-        {/* <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4">
-          <p className="text-slate-400 text-sm">Assigned Complaints</p>
-          <p className="text-white font-medium mt-1 flex items-center gap-2">
-            <ClipboardList size={14} className="text-blue-400" />
-            {user?.assignedCount || 0}
-          </p>
-        </div> */}
 
         {/* College */}
         <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4">

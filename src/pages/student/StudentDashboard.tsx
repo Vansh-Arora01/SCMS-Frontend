@@ -11,11 +11,11 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import StudentHeader from "../../components/student/StudentHeader";
-import ChangePassword from "../../components/shared/ChangePassword";
+
 import { useState } from "react";
 
 const StudentDashboard = () => {
-  const [openModal, setOpenModal] = useState(false);
+  
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useAuth();
 
@@ -45,7 +45,7 @@ const StudentDashboard = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:relative top-0 left-0 h-full w-64 lg:w-72 flex-shrink-0 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800 p-4 lg:p-6 flex flex-col z-40 transform transition-transform duration-300
+        className={`fixed md:relative top-0 left-0 min-h-screen w-64 lg:w-72 flex-shrink-0 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800 p-4 lg:p-6 flex flex-col z-40 transform transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0`}
       >
@@ -142,7 +142,7 @@ const StudentDashboard = () => {
           </div>
 
           {/* Header */}
-          <StudentHeader setOpenModal={setOpenModal} />
+          <StudentHeader />
 
           {/* Dynamic Page */}
           <Outlet />
@@ -152,24 +152,7 @@ const StudentDashboard = () => {
       </main>
 
       {/* Change Password Modal */}
-      {openModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-
-          <div className="relative w-full max-w-4xl px-4">
-
-            <button
-              onClick={() => setOpenModal(false)}
-              className="absolute top-4 right-4 text-white text-xl hover:opacity-70"
-            >
-              ✕
-            </button>
-
-            <ChangePassword />
-
-          </div>
-
-        </div>
-      )}
+     
 
     </div>
   );

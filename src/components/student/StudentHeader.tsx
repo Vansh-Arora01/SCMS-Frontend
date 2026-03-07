@@ -8,7 +8,7 @@ interface Props {
   setOpenModal: (val: boolean) => void;
 }
 
-export default function StudentHeader({ setOpenModal }: Props) {
+export default function StudentHeader() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -97,13 +97,12 @@ export default function StudentHeader({ setOpenModal }: Props) {
         )}
 
         {/* Change Password */}
-        <button
-          onClick={() => setOpenModal(true)}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition w-full sm:w-auto"
-        >
-          <KeyRound size={16} />
-          Change Password
-        </button>
+       <button
+  onClick={() => navigate("/account/change-password")}
+  className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium border border-slate-700 transition w-full sm:w-auto"
+>
+  🔑 Change Password
+</button>
 
       </div>
     </motion.div>

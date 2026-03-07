@@ -37,6 +37,9 @@ import SortedComplaints from "./pages/admin/SortedComplaints";
 import ManageStaff from "./pages/admin/ManageStaff";
 import AdminProfile from "./pages/admin/AdminProfile";
 
+// shared route 
+import ChangePasswordPage from "./pages/shared/ChangePasswordPage";
+
 const App: React.FC = () => {
   return (
     <>
@@ -89,13 +92,18 @@ const App: React.FC = () => {
             </RoleProtectedRoute>
           }
         >
-          <Route index element={<UnassignedComplaints />} />
+          {/* <Route index element={<UnassignedComplaints />} /> */}
           <Route path="unassigned" element={<UnassignedComplaints />} />
           <Route path="sorted" element={<SortedComplaints />} />
           <Route path="staff" element={<ManageStaff />} />
           <Route path="profile" element={<AdminProfile />} />
         </Route>
 
+
+          {/* SHARED ROUTES */}
+           <Route path="/account/change-password" element={<ChangePasswordPage />} />
+
+           
         {/* Catch All */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

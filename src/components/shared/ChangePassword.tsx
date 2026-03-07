@@ -31,8 +31,9 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-center p-2 sm:p-4">
-      <div className="w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl border border-transparent relative">
+    <div className="w-full p-2 sm:p-4">
+
+      <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-transparent relative">
 
         <div className="flex flex-col md:flex-row">
 
