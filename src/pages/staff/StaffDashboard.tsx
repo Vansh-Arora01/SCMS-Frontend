@@ -3,7 +3,7 @@ import StaffHeader from "../../components/staff/StaffHeader";
 
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState, useMemo } from "react";
+import {  useMemo } from "react";
 import { ClipboardList, Clock, CheckCircle, ArrowRight } from "lucide-react";
 import { useApi } from "../../hooks/useApi";
 import { staffService } from "../../services/staff.service";

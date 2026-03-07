@@ -1,12 +1,10 @@
 import api from "../../services/api";
 import { useAuth } from "../../hooks/useAuth";
 import { motion } from "framer-motion";
-import { MailCheck, MailWarning, ClipboardList, KeyRound } from "lucide-react";
+import { MailCheck, MailWarning, ClipboardList } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  setOpenModal: (val: boolean) => void;
-}
+
 
 export default function StaffHeader(){
   const navigate = useNavigate();

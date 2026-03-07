@@ -405,12 +405,9 @@ const AdminDashboard = () => {
                     nameKey="name"
                     outerRadius={110}
                   >
-                    {categoryChartData.map((entry: any, index: number) => (
-                      <Cell
-                        key={index}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
+                    {categoryChartData.map((_:any, index: number) => (
+  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+))}
                   </Pie>
 
                   <Tooltip />

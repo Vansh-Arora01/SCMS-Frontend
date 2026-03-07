@@ -1,12 +1,10 @@
 import api from "../../services/api";
 import { useAuth } from "../../hooks/useAuth";
 import { motion } from "framer-motion";
-import { MailCheck, MailWarning, Plus, KeyRound } from "lucide-react";
+import { MailCheck, MailWarning, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 
 export default function AdminHeader() {
   const navigate = useNavigate();
