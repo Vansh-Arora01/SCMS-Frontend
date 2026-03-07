@@ -12,6 +12,11 @@ export default function ComplaintStatusChart({ complaints }: Props) {
       name: "Open",
       value: complaints.filter((c) => c.status === "OPEN").length,
     },
+    
+    {
+      name: "Assigned",
+      value: complaints.filter((c) => c.status === "ASSIGNED").length,
+    },
     {
       name: "In Progress",
       value: complaints.filter((c) => c.status === "IN_PROGRESS").length,
@@ -22,7 +27,12 @@ export default function ComplaintStatusChart({ complaints }: Props) {
     },
   ];
 
-  const COLORS = ["#facc15", "#3b82f6", "#22c55e"];
+  const COLORS = [
+  "#f59e0b", // Open
+  "#3b82f6", // In Progress
+  "#6366f1", // Assigned
+  "#22c55e", // Resolved
+];
 
   return (
     <div className="group relative bg-slate-900/70 border border-slate-800 

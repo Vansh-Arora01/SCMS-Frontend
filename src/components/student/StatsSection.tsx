@@ -7,7 +7,7 @@ import { FileText, Clock, Loader, CheckCircle, ThumbsUp } from "lucide-react";
 interface Stats {
   total: number;
   open: number;
-  inProgress: number;
+  Assigned: number;
   resolved: number;
   totalVotes: number;
 }
@@ -21,7 +21,7 @@ export default function StatsSection({ complaints }: Props) {
     return {
       total: complaints.length,
       open: complaints.filter((c) => c.status === "OPEN").length,
-      inProgress: complaints.filter((c) => c.status === "IN_PROGRESS").length,
+      Assigned: complaints.filter((c) => c.status === "ASSIGNED").length,
       resolved: complaints.filter((c) => c.status === "RESOLVED").length,
       totalVotes: complaints.reduce((sum, c) => sum + (c.voteCount || 0), 0),
     };
@@ -41,8 +41,8 @@ export default function StatsSection({ complaints }: Props) {
       color: "from-yellow-500 to-orange-500",
     },
     {
-      label: "In Progress",
-      value: stats.inProgress,
+      label: "Assigned",
+      value: stats.Assigned,
       icon: Loader,
       color: "from-blue-500 to-cyan-500",
     },
