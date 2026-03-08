@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer, buttonHover } from '../utils/animations.ts';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-32">
       <motion.div
@@ -45,6 +48,7 @@ const Hero: React.FC = () => {
           {/* CTAs */}
           <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
             <motion.button
+              onClick={() => navigate('/login')}
               variants={buttonHover}
               initial="rest"
               whileHover="hover"
@@ -58,6 +62,7 @@ const Hero: React.FC = () => {
             </motion.button>
 
             <motion.button
+            onClick={() => navigate('/login')}
               variants={buttonHover}
               initial="rest"
               whileHover="hover"

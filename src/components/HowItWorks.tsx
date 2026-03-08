@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { fadeInUp, staggerContainer, slideInLeft, slideInRight } from '../utils/animations.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface Step {
   number: string;
@@ -42,6 +43,7 @@ const steps: Step[] = [
 ];
 
 const HowItWorks: React.FC = () => {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -169,6 +171,7 @@ const HowItWorks: React.FC = () => {
                 Experience the future of complaint management. Submit your first complaint in under 2 minutes.
               </p>
               <motion.button
+              onClick={() => navigate('/register')}
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 60px rgba(168, 85, 247, 0.4)' }}
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl font-semibold text-white shadow-xl shadow-purple-500/30 inline-flex items-center gap-2"
