@@ -341,10 +341,11 @@ const AdminDashboard = () => {
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex-1 flex flex-col relative z-0 min-w-0 w-full"
+        className="flex-1 flex flex-col relative z-0 min-w-0 w-full overflow-y-auto"
+
       >
 
-        <div className="flex-1 px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 overflow-y-auto space-y-8">
+        <div className="flex-1 px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 space-y-8">
 
           {/* Mobile Menu */}
           <div className="md:hidden flex items-center">

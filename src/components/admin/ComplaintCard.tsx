@@ -70,14 +70,12 @@ const getPriorityStyle = (priority?: string) => {
 const ComplaintCard = ({ complaint, onAssign, onView }: any) => {
 
   const handleView = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    onView(complaint);
-  };
+  onView(complaint);
+};
 
-  const handleAssign = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    onAssign(complaint);
-  };
+const handleAssign = () => {
+  onAssign(complaint);
+};
 
   return (
     <motion.div
