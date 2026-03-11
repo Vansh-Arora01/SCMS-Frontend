@@ -144,36 +144,46 @@ const UnassignedComplaints = () => {
             </div>
 
             {/* Votes + Priority */}
-            <div className="flex gap-6 mb-4">
+           {/* Metadata Section */}
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
-              <div>
-                <span className="text-slate-400 text-sm">Votes</span>
-                <p className="text-white">{viewComplaint.voteCount || 0}</p>
-              </div>
+  {/* Votes */}
+  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 flex flex-col">
+    <span className="text-xs text-slate-400 mb-1">Votes</span>
+    <span className="text-lg font-semibold text-white">
+      {viewComplaint.voteCount || 0}
+    </span>
+  </div>
 
-              <div>
-                <span className="text-slate-400 text-sm">Priority</span>
+  {/* Priority */}
+  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 flex flex-col">
+    <span className="text-xs text-slate-400 mb-2">Priority</span>
 
-                <span
-                  className={`px-3 py-1 text-xs rounded-full border ${getPriorityStyle(
-                    viewComplaint.priority
-                  )}`}
-                >
-                  {viewComplaint.priority || "low"}
-                </span>
+    <span
+      className={`px-3 py-1 text-xs rounded-full border w-fit ${getPriorityStyle(
+        viewComplaint.priority
+      )}`}
+    >
+      {(viewComplaint.priority || "low").toUpperCase()}
+    </span>
+  </div>
 
-              </div>
+  {/* Created By */}
+  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 flex flex-col">
+    <span className="text-xs text-slate-400 mb-1">Created By</span>
 
-            </div>
+    <span className="text-white text-sm font-medium">
+      {viewComplaint.createdBy?.name || "Anonymous"}
+    </span>
 
-            {/* Created By */}
-            <div className="mb-4">
-              <span className="text-slate-400 text-sm">Created By:</span>
-              <p className="text-white">
-                {viewComplaint.createdBy?.name || "Anonymous"}
-                {viewComplaint.createdBy?.enrollment || "Anonymous"}
-              </p>
-            </div>
+    {viewComplaint.createdBy?.enrollment && (
+      <span className="text-xs text-slate-400">
+        {viewComplaint.createdBy.enrollment}
+      </span>
+    )}
+  </div>
+
+</div>
 
             {/* Created At */}
             {viewComplaint.createdAt && (
