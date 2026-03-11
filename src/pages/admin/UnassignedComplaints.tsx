@@ -5,17 +5,42 @@ import AssignModal from "../../components/admin/AssignModal";
 import { motion } from "framer-motion";
 import { ClipboardList } from "lucide-react";
 
+interface Attachment {
+  url: string;
+  fileType?: "IMAGE" | "PDF" | "OTHER";
+}
+
 interface Complaint {
   _id: string;
+  complaintNumber?: string;
   title: string;
   description: string;
-  department: string;
+  category: string;
+  voteCount?: number;
+  priority?: "low" | "medium" | "high" | "critical";
+  attachments?: Attachment[];
   createdBy?: {
-    name: string;
-    email: string;
-  };
+    name?: string;
+    email?: string;
+    enrollment?:string;
+  } | null;
   createdAt?: string;
 }
+
+const getPriorityStyle = (priority?: string) => {
+  switch (priority) {
+    case "critical":
+      return "bg-red-600/20 text-red-400 border-red-500/40";
+    case "high":
+      return "bg-orange-500/10 text-orange-400 border-orange-500/30";
+    case "medium":
+      return "bg-yellow-500/10 text-yellow-400 border-yellow-500/30";
+    case "low":
+      return "bg-green-500/10 text-green-400 border-green-500/30";
+    default:
+      return "bg-slate-700 text-slate-300 border-slate-600";
+  }
+};
 
 const UnassignedComplaints = () => {
   const { getUnassigned } = useAdminService();
@@ -89,9 +114,7 @@ const UnassignedComplaints = () => {
       {viewComplaint && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl
-          w-full max-w-2xl max-h-[90vh] overflow-y-auto
-          p-8 relative shadow-xl">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 relative shadow-xl">
 
             {/* Close */}
             <button
@@ -106,10 +129,41 @@ const UnassignedComplaints = () => {
               {viewComplaint.title}
             </h2>
 
-            {/* Department */}
+            {/* Complaint ID */}
+            {viewComplaint.complaintNumber && (
+              <div className="mb-4">
+                <span className="text-slate-400 text-sm">Complaint ID:</span>
+                <p className="text-white">{viewComplaint.complaintNumber}</p>
+              </div>
+            )}
+
+            {/* Category */}
             <div className="mb-4">
-              <span className="text-slate-400 text-sm">Department:</span>
-              <p className="text-white">{viewComplaint.department}</p>
+              <span className="text-slate-400 text-sm">Category:</span>
+              <p className="text-white">{viewComplaint.category}</p>
+            </div>
+
+            {/* Votes + Priority */}
+            <div className="flex gap-6 mb-4">
+
+              <div>
+                <span className="text-slate-400 text-sm">Votes</span>
+                <p className="text-white">{viewComplaint.voteCount || 0}</p>
+              </div>
+
+              <div>
+                <span className="text-slate-400 text-sm">Priority</span>
+
+                <span
+                  className={`px-3 py-1 text-xs rounded-full border ${getPriorityStyle(
+                    viewComplaint.priority
+                  )}`}
+                >
+                  {viewComplaint.priority || "low"}
+                </span>
+
+              </div>
+
             </div>
 
             {/* Created By */}
@@ -117,8 +171,19 @@ const UnassignedComplaints = () => {
               <span className="text-slate-400 text-sm">Created By:</span>
               <p className="text-white">
                 {viewComplaint.createdBy?.name || "Anonymous"}
+                {viewComplaint.createdBy?.enrollment || "Anonymous"}
               </p>
             </div>
+
+            {/* Created At */}
+            {viewComplaint.createdAt && (
+              <div className="mb-4">
+                <span className="text-slate-400 text-sm">Created At:</span>
+                <p className="text-white">
+                  {new Date(viewComplaint.createdAt).toLocaleString()}
+                </p>
+              </div>
+            )}
 
             {/* Description */}
             <div className="mt-6">
@@ -126,10 +191,80 @@ const UnassignedComplaints = () => {
                 Description
               </h4>
 
-              <p className="text-slate-400 text-sm whitespace-pre-line">
+              <p className="text-slate-400 text-sm whitespace-pre-line break-words">
                 {viewComplaint.description}
               </p>
             </div>
+
+            {/* Attachments */}
+            {Array.isArray(viewComplaint.attachments) &&
+              viewComplaint.attachments.length > 0 && (
+                <div className="mt-6">
+
+                  <h4 className="text-slate-300 font-semibold mb-4">
+                    Attachments ({viewComplaint.attachments.length})
+                  </h4>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    {viewComplaint.attachments.map((file, index) => {
+
+                      const isImage =
+                        file.fileType === "IMAGE" ||
+                        file.url.match(/\.(jpeg|jpg|png|webp)$/i);
+
+                      return (
+                        <div
+                          key={index}
+                          className="bg-slate-900/60 border border-slate-800 rounded-xl p-3 hover:border-indigo-500/40 transition"
+                        >
+
+                          {isImage ? (
+                            <div className="relative group">
+
+                              <img
+                                src={file.url}
+                                alt="Complaint Attachment"
+                                className="rounded-lg max-h-40 sm:max-h-56 w-full object-cover"
+                              />
+
+                              <a
+                                href={file.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-sm rounded-lg transition"
+                              >
+                                View Full Image
+                              </a>
+
+                            </div>
+                          ) : (
+                            <div className="flex flex-col gap-2">
+
+                              <span className="text-slate-400 text-xs">
+                                Document Attachment
+                              </span>
+
+                              <a
+                                href={file.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-2 rounded-lg w-fit transition"
+                              >
+                                Open File
+                              </a>
+
+                            </div>
+                          )}
+
+                        </div>
+                      );
+                    })}
+
+                  </div>
+
+                </div>
+              )}
 
             {/* Assign Button */}
             <div className="mt-8 flex justify-end">
@@ -139,8 +274,7 @@ const UnassignedComplaints = () => {
                   setSelected(viewComplaint);
                   setViewComplaint(null);
                 }}
-                className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700
-                text-white rounded-lg transition"
+                className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition"
               >
                 Assign Complaint
               </button>
