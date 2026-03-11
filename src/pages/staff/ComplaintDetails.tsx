@@ -90,9 +90,9 @@ const ComplaintDetails = () => {
               {complaint.title}
             </h2>
 
-            <p className="text-slate-300 leading-relaxed text-sm md:text-base">
-              {complaint.description}
-            </p>
+            <p className="text-slate-300 leading-relaxed text-sm md:text-base whitespace-pre-line break-words overflow-hidden">
+  {complaint.description}
+</p>
 
             <div className="flex flex-wrap gap-3 md:gap-4 items-center">
               <StatusBadge status={complaint.status} />

@@ -6,21 +6,20 @@ const ComplaintCard = ({ complaint }: any) => {
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
-      className="bg-white/10 backdrop-blur-xl p-4 md:p-6 rounded-2xl border border-white/20 shadow-lg flex flex-col gap-3"
+      className="bg-white/10 backdrop-blur-xl p-4 md:p-6 rounded-2xl border border-white/20 shadow-lg flex flex-col gap-3 h-full"
     >
       {/* Title */}
-      <h3 className="text-lg md:text-xl font-semibold text-white break-words">
+      <h3 className="text-lg md:text-xl font-semibold text-white break-words line-clamp-2">
         {complaint.title}
       </h3>
 
       {/* Description */}
-      <p className="text-gray-300 text-sm md:text-base line-clamp-2 break-words">
+      <p className="text-gray-300 text-sm md:text-base break-words overflow-hidden line-clamp-3 md:line-clamp-2">
         {complaint.description}
       </p>
 
       {/* Footer */}
-      <div className="mt-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-
+      <div className="mt-auto flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <StatusBadge status={complaint.status} />
 
         <Link
@@ -29,7 +28,6 @@ const ComplaintCard = ({ complaint }: any) => {
         >
           View
         </Link>
-
       </div>
     </motion.div>
   );

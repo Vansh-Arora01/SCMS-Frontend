@@ -10,15 +10,22 @@ interface Complaint {
   title: string;
   description: string;
   department: string;
+  createdBy?: {
+    name: string;
+    email: string;
+  };
+  createdAt?: string;
 }
 
 const UnassignedComplaints = () => {
   const { getUnassigned } = useAdminService();
+
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [selected, setSelected] = useState<Complaint | null>(null);
+  const [viewComplaint, setViewComplaint] = useState<Complaint | null>(null);
 
   useEffect(() => {
-    getUnassigned().then(res => {
+    getUnassigned().then((res) => {
       setComplaints(res.data.data);
     });
   }, []);
@@ -71,10 +78,78 @@ const UnassignedComplaints = () => {
               <ComplaintCard
                 complaint={c}
                 onAssign={setSelected}
+                onView={setViewComplaint}
               />
             </motion.div>
           ))}
         </motion.div>
+      )}
+
+      {/* Complaint Details Modal */}
+      {viewComplaint && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl
+          w-full max-w-2xl max-h-[90vh] overflow-y-auto
+          p-8 relative shadow-xl">
+
+            {/* Close */}
+            <button
+              onClick={() => setViewComplaint(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+            >
+              ✕
+            </button>
+
+            {/* Title */}
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              {viewComplaint.title}
+            </h2>
+
+            {/* Department */}
+            <div className="mb-4">
+              <span className="text-slate-400 text-sm">Department:</span>
+              <p className="text-white">{viewComplaint.department}</p>
+            </div>
+
+            {/* Created By */}
+            <div className="mb-4">
+              <span className="text-slate-400 text-sm">Created By:</span>
+              <p className="text-white">
+                {viewComplaint.createdBy?.name || "Anonymous"}
+              </p>
+            </div>
+
+            {/* Description */}
+            <div className="mt-6">
+              <h4 className="text-slate-300 font-medium mb-2">
+                Description
+              </h4>
+
+              <p className="text-slate-400 text-sm whitespace-pre-line">
+                {viewComplaint.description}
+              </p>
+            </div>
+
+            {/* Assign Button */}
+            <div className="mt-8 flex justify-end">
+
+              <button
+                onClick={() => {
+                  setSelected(viewComplaint);
+                  setViewComplaint(null);
+                }}
+                className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700
+                text-white rounded-lg transition"
+              >
+                Assign Complaint
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
       )}
 
       {/* Assign Modal */}
@@ -83,8 +158,8 @@ const UnassignedComplaints = () => {
           complaint={selected}
           onClose={() => {
             if (selected) {
-              setComplaints(prev =>
-                prev.filter(c => c._id !== selected._id)
+              setComplaints((prev) =>
+                prev.filter((c) => c._id !== selected._id)
               );
             }
             setSelected(null);
