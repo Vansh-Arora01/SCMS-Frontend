@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { motion } from "framer-motion";
 import { MailCheck, MailWarning, ClipboardList } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import NotificationBell from "../shared/NotificationBell";
 
 
 
@@ -72,7 +73,12 @@ export default function StaffHeader(){
       </div>
 
       {/* RIGHT SECTION */}
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 z-10 w-full md:w-auto">
+     <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 z-10 w-full md:w-auto items-center">
+     
+       {/* 🔔 Notification Bell */}
+       <div className="relative z-50">
+         <NotificationBell />
+       </div>
 
         {/* Assigned Complaints */}
         <button
