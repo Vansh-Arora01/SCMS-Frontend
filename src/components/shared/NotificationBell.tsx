@@ -44,10 +44,10 @@ export default function NotificationBell() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-3 w-[350px] bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-4 z-50 max-h-[400px] overflow-y-auto">
-          <NotificationPanel />
-        </div>
-      )}
+  <div className="fixed top-20 right-6 w-[350px] bg-slate-900 border border-slate-700 rounded-xl shadow-lg p-4 z-[9999] max-h-[400px] overflow-y-auto">
+    <NotificationPanel />
+  </div>
+)}
 
     </div>
   );
