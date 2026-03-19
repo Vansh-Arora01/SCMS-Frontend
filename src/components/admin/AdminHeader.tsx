@@ -75,7 +75,7 @@ export default function AdminHeader() {
      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 z-10 w-full md:w-auto items-center">
 
   {/* 🔔 Notification Bell */}
-  <div className="self-end sm:self-auto">
+  <div className="relative z-50">
     <NotificationBell />
   </div>
         {/* Create Staff */}
