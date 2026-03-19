@@ -15,6 +15,8 @@ export default function NotificationPanel() {
     const fetchNotifications = async () => {
       try {
         const data = await notificationService.getNotifications();
+
+        // ✅ data is already Notification[]
         setNotifications(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch notifications", err);
@@ -27,9 +29,9 @@ export default function NotificationPanel() {
     fetchNotifications();
   }, []);
 
-  // ✅ Properly defined outside JSX
-  const getIcon = (type: NotificationType) => {
-    switch (type) {
+  // ✅ safer type handling
+  const getIcon = (type: NotificationType | string) => {
+    switch (type?.toUpperCase()) {
       case "RESOLVED":
         return <CheckCircle size={18} />;
       case "ASSIGNED":
@@ -41,9 +43,14 @@ export default function NotificationPanel() {
     }
   };
 
-  const formatTime = (date: string) => {
-    const now = new Date().getTime();
+  // ✅ safe date handling
+  const formatTime = (date?: string) => {
+    if (!date) return "Unknown time";
+
     const created = new Date(date).getTime();
+    if (isNaN(created)) return "Invalid date";
+
+    const now = Date.now();
     const diffMinutes = Math.floor((now - created) / 60000);
 
     if (diffMinutes < 1) return "Just now";
@@ -83,48 +90,52 @@ export default function NotificationPanel() {
 
   return (
     <div className="space-y-4">
-      {notifications.map((n, index) => (
-        <motion.div
-          key={n._id}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.05 }}
-          whileHover={{ y: -3 }}
-          className={`relative p-5 rounded-2xl border backdrop-blur-xl transition-all ${
-            n.isRead
-              ? "bg-slate-900/50 border-slate-800"
-              : "bg-indigo-600/10 border-indigo-500/30 shadow-md shadow-indigo-500/10"
-          }`}
-        >
-          {!n.isRead && (
-            <span className="absolute top-4 right-4 w-2 h-2 bg-indigo-500 rounded-full" />
-          )}
+      {notifications.map((n, index) => {
+        const isRead = Boolean(n.isRead);
 
-          <div className="flex items-start gap-4">
-            <div
-              className={`p-2 rounded-lg ${
-                n.isRead
-                  ? "bg-slate-800 text-slate-400"
-                  : "bg-indigo-600/20 text-indigo-400"
-              }`}
-            >
-              {getIcon(n.type)}
-            </div>
+        return (
+          <motion.div
+            key={n._id || index} // ✅ fallback added
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            whileHover={{ y: -3 }}
+            className={`relative p-5 rounded-2xl border backdrop-blur-xl transition-all ${
+              isRead
+                ? "bg-slate-900/50 border-slate-800"
+                : "bg-indigo-600/10 border-indigo-500/30 shadow-md shadow-indigo-500/10"
+            }`}
+          >
+            {!isRead && (
+              <span className="absolute top-4 right-4 w-2 h-2 bg-indigo-500 rounded-full" />
+            )}
 
-            <div className="flex-1">
-              <h4 className="text-white font-semibold">
-                {n.title}
-              </h4>
-              <p className="text-slate-400 text-sm mt-1">
-                {n.message}
-              </p>
-              <p className="text-xs text-slate-500 mt-2">
-                {formatTime(n.createdAt)}
-              </p>
+            <div className="flex items-start gap-4">
+              <div
+                className={`p-2 rounded-lg ${
+                  isRead
+                    ? "bg-slate-800 text-slate-400"
+                    : "bg-indigo-600/20 text-indigo-400"
+                }`}
+              >
+                {getIcon(n.type)}
+              </div>
+
+              <div className="flex-1">
+                <h4 className="text-white font-semibold">
+                  {n.title}
+                </h4>
+                <p className="text-slate-400 text-sm mt-1">
+                  {n.message}
+                </p>
+                <p className="text-xs text-slate-500 mt-2">
+                  {formatTime(n.createdAt)}
+                </p>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      ))}
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
