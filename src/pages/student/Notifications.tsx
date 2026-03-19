@@ -1,4 +1,4 @@
-import NotificationPanel from "../../components/student/NotificationPanel";
+import NotificationPanel from "../../components/shared/NotificationPanel";
 
 const Notifications = () => {
   return (
