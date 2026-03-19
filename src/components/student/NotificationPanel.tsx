@@ -11,25 +11,57 @@ export default function NotificationPanel() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // 🔥 fetch function reusable
+  const fetchNotifications = async () => {
+    try {
+      const data = await notificationService.getNotifications();
+      setNotifications(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to fetch notifications", err);
+      setNotifications([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const data = await notificationService.getNotifications();
-
-        // ✅ data is already Notification[]
-        setNotifications(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("Failed to fetch notifications", err);
-        setNotifications([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchNotifications();
+
+    // 🔄 auto refresh every 10 sec
+    const interval = setInterval(fetchNotifications, 10000);
+    return () => clearInterval(interval);
   }, []);
 
-  // ✅ safer type handling
+  // ✅ mark single as read
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      await notificationService.markAsRead(id);
+
+      // instant UI update
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n._id === id ? { ...n, isRead: true } : n
+        )
+      );
+    } catch (err) {
+      console.error("Mark as read failed", err);
+    }
+  };
+
+  // ✅ mark all as read
+  const handleMarkAllAsRead = async () => {
+    try {
+      await notificationService.markAllAsRead();
+
+      setNotifications((prev) =>
+        prev.map((n) => ({ ...n, isRead: true }))
+      );
+    } catch (err) {
+      console.error("Mark all as read failed", err);
+    }
+  };
+
+  // 🔹 icons
   const getIcon = (type: NotificationType | string) => {
     switch (type?.toUpperCase()) {
       case "RESOLVED":
@@ -43,7 +75,7 @@ export default function NotificationPanel() {
     }
   };
 
-  // ✅ safe date handling
+  // 🔹 time formatter
   const formatTime = (date?: string) => {
     if (!date) return "Unknown time";
 
@@ -59,6 +91,7 @@ export default function NotificationPanel() {
     return `${Math.floor(diffMinutes / 1440)} days ago`;
   };
 
+  // 🔄 loading state
   if (loading) {
     return (
       <div className="space-y-4">
@@ -72,6 +105,7 @@ export default function NotificationPanel() {
     );
   }
 
+  // ❌ empty state
   if (!notifications.length) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -90,22 +124,35 @@ export default function NotificationPanel() {
 
   return (
     <div className="space-y-4">
+
+      {/* 🔥 Mark all button */}
+      <div className="flex justify-end">
+        <button
+          onClick={handleMarkAllAsRead}
+          className="text-xs text-indigo-400 hover:underline"
+        >
+          Mark all as read
+        </button>
+      </div>
+
       {notifications.map((n, index) => {
         const isRead = Boolean(n.isRead);
 
         return (
           <motion.div
-            key={n._id || index} // ✅ fallback added
+            key={n._id || index}
+            onClick={() => !isRead && handleMarkAsRead(n._id)}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
             whileHover={{ y: -3 }}
-            className={`relative p-5 rounded-2xl border backdrop-blur-xl transition-all ${
+            className={`relative p-5 rounded-2xl border backdrop-blur-xl transition-all cursor-pointer ${
               isRead
                 ? "bg-slate-900/50 border-slate-800"
                 : "bg-indigo-600/10 border-indigo-500/30 shadow-md shadow-indigo-500/10"
             }`}
           >
+            {/* unread dot */}
             {!isRead && (
               <span className="absolute top-4 right-4 w-2 h-2 bg-indigo-500 rounded-full" />
             )}
