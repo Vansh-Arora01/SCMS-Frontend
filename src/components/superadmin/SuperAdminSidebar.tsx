@@ -82,7 +82,10 @@ const SuperAdminSidebar = (): JSX.Element => {
 
         {/* Navigation */}
         <div className="flex flex-col gap-2 md:gap-3">
-
+            <NavLink to="/" className={navStyle} onClick={() => setOpen(false)}>
+            <Home size={18} />
+            <span className="text-sm md:text-base">Home</span>
+          </NavLink>
           <NavLink
             to="/superadmin"
             className={navStyle}

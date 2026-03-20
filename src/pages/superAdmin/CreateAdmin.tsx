@@ -14,10 +14,17 @@ const CreateAdmin = (): JSX.Element => {
   const [colleges, setColleges] = useState<College[]>([]);
 
   useEffect(() => {
-    superAdminService.getColleges().then(res => {
-      setColleges(res.data);
-    });
-  }, []);
+  const fetchColleges = async () => {
+    try {
+      const res = await superAdminService.getColleges();
+      setColleges(res.data.data);
+    } catch (err) {
+      console.error("Error fetching colleges:", err);
+    }
+  };
+
+  fetchColleges();
+}, []);
 
   const handleSubmit = async () => {
     try {
