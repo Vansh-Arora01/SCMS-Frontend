@@ -118,12 +118,20 @@ const SortedComplaints = () => {
 
               {/* Created By */}
               <div className="text-xs text-slate-400 mt-3">
-                Created By:{" "}
-                <span className="text-slate-200">
-                  {complaint.createdBy?.name} (
-                  {complaint.createdBy?.enrollment})
-                </span>
-              </div>
+  Created By:{" "}
+  <span className="text-slate-200">
+    {complaint.isAnonymous ? (
+      "Anonymous"
+    ) : (
+      <>
+        {complaint.createdBy?.name}
+        {complaint.createdBy?.enrollment && (
+          <> ({complaint.createdBy.enrollment})</>
+        )}
+      </>
+    )}
+  </span>
+</div>
 
               {/* Assigned */}
               {complaint.assignedTo && (

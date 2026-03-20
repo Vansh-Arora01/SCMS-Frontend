@@ -17,6 +17,7 @@ interface Complaint {
   description: string;
   category: string;
   voteCount?: number;
+  isAnonymous?:boolean;
   priority?: "low" | "medium" | "high" | "critical";
   attachments?: Attachment[];
   createdBy?: {
@@ -170,18 +171,20 @@ const UnassignedComplaints = () => {
 
   {/* Created By */}
   <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 flex flex-col">
-    <span className="text-xs text-slate-400 mb-1">Created By</span>
+  <span className="text-xs text-slate-400 mb-1">Created By</span>
 
-    <span className="text-white text-sm font-medium">
-      {viewComplaint.createdBy?.name || "Anonymous"}
+  <span className="text-white text-sm font-medium">
+    {viewComplaint.isAnonymous
+      ? "Anonymous"
+      : viewComplaint.createdBy?.name}
+  </span>
+
+  {!viewComplaint.isAnonymous && viewComplaint.createdBy?.enrollment && (
+    <span className="text-xs text-slate-400">
+      {viewComplaint.createdBy.enrollment}
     </span>
-
-    {viewComplaint.createdBy?.enrollment && (
-      <span className="text-xs text-slate-400">
-        {viewComplaint.createdBy.enrollment}
-      </span>
-    )}
-  </div>
+  )}
+</div>
 
 </div>
 
