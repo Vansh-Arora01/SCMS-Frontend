@@ -40,6 +40,10 @@ import AdminProfile from "./pages/admin/AdminProfile";
 
 import SuperAdminDashboard from "./pages/superAdmin/SuperAdminDashboard";
 import SuperAdminProfile from "./pages/superAdmin/SuperAdminProfile";
+import Admins from "./pages/superAdmin/Admins";
+import Colleges from "./pages/superAdmin/Colleges";
+import CreateAdmin from "./pages/superAdmin/CreateAdmin";
+import CreateCollege from "./pages/superAdmin/CreateCollege";
 // shared route 
 import ChangePasswordPage from "./pages/shared/ChangePasswordPage";
 
@@ -105,22 +109,24 @@ const App: React.FC = () => {
         </Route>
 
         {/* SUPER ADMIN ROUTES */}
-        <Route path="/superadmin" element={<SuperAdminDashboard />}>
+        <Route path="/superadmin" element={<RoleProtectedRoute role="SUPER_ADMIN">
+              <SuperAdminDashboard />
+            </RoleProtectedRoute>}>
 
   {/* 🏠 Main Dashboard */}
   <Route index element={<div />} />
 
   {/* 👨‍💼 Admins */}
-  {/* <Route path="admins" element={<Admins />} />
+  <Route path="admins" element={<Admins />} />
 
   {/* 🏫 Colleges */}
-  {/* <Route path="colleges" element={<Colleges />} /> */}
+  <Route path="colleges" element={<Colleges />} />
 
   {/* ➕ Create Admin */}
-  {/* <Route path="create-admin" element={<CreateAdmin />} /> */}
+  <Route path="create-admin" element={<CreateAdmin />} />
 
   {/* ➕ Create College */}
-  {/* <Route path="create-college" element={<CreateCollege />} /> */ }
+  <Route path="create-college" element={<CreateCollege />} />
 
   {/* 👤 Profile */}
   <Route path="profile" element={<SuperAdminProfile />} />

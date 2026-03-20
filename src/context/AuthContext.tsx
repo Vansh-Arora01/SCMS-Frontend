@@ -57,6 +57,9 @@ const checkAuth = useCallback(async () => {
         case 'STUDENT':
           navigate('/student');
           break;
+        case 'SUPER_ADMIN':
+          navigate('/superadmin');
+          break;
         default:
           navigate('/dashboard');
       }

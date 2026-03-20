@@ -7,7 +7,8 @@ import {
   PlusCircle,
   ShieldCheck,
   Menu,
-  X
+  X,
+  User
 } from "lucide-react";
 import { useState } from "react";
 
@@ -125,6 +126,14 @@ const SuperAdminSidebar = (): JSX.Element => {
           >
             <PlusCircle size={18} />
             <span className="text-sm md:text-base">Create College</span>
+          </NavLink>
+          <NavLink
+            to="profile"
+            className={navStyle}
+            onClick={() => setOpen(false)}
+          >
+            <User size={18} />
+            <span className="text-sm md:text-base">Profile</span>
           </NavLink>
 
         </div>
