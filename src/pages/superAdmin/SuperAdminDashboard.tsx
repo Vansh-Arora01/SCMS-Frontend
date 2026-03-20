@@ -184,8 +184,16 @@ const SuperAdminDashboard = (): JSX.Element => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis dataKey="name" stroke="#94a3b8" />
                   <YAxis stroke="#94a3b8" />
-                  <Tooltip />
-                  <Legend />
+                  <Tooltip
+                  contentStyle={{
+        backgroundColor: "#1e293b", // slate-800
+        border: "1px solid #334155",
+        borderRadius: "8px",
+        color: "#e2e8f0"
+      }}
+      labelStyle={{ color: "#cbd5f5" }}
+      cursor={{ fill: "rgba(99,102,241,0.1)" }} />
+                  <Legend wrapperStyle={{ color: "#cbd5f5" }} />
                   <Bar dataKey="value" fill="#6366f1" />
                 </BarChart>
               </ResponsiveContainer>
