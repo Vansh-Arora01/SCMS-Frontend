@@ -98,7 +98,7 @@ const ComplaintDetails = () => {
 
             {/* ✅ CREATED BY (NEW) */}
             <div className="text-sm text-slate-400">
-              Created By:{"Anonymous "}
+              Created By:{" "}
               <span className="text-slate-200">
                 {complaint.isAnonymous ? (
                   "Anonymous"
