@@ -23,6 +23,9 @@ const Navbar: React.FC = () => {
       case 'STAFF':
         navigate('/staff', { replace: true });
         break;
+      case 'SUPER_ADMIN':
+        navigate('/superadmin', { replace: true });
+        break;
       default:
         navigate('/', { replace: true });
     }
@@ -106,6 +109,8 @@ const Navbar: React.FC = () => {
                     ? 'Admin Dashboard'
                     : user.role === 'STAFF'
                     ? 'Staff Dashboard'
+                    : user.role === 'SUPER_ADMIN'
+                    ? 'Super Admin Dashboard'
                     : user.role === 'STUDENT'
                     ? 'Student Dashboard'
                     : 'Dashboard'}
@@ -177,6 +182,8 @@ const Navbar: React.FC = () => {
                       ? 'Admin Dashboard'
                       : user.role === 'STAFF'
                       ? 'Staff Dashboard'
+                      : user.role === 'SUPER_ADMIN'
+                      ? 'Super Admin Dashboard'
                       : user.role === 'STUDENT'
                       ? 'Student Dashboard'
                       : 'Dashboard'}

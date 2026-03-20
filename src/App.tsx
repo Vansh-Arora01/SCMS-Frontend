@@ -38,6 +38,8 @@ import SortedComplaints from "./pages/admin/SortedComplaints";
 import ManageStaff from "./pages/admin/ManageStaff";
 import AdminProfile from "./pages/admin/AdminProfile";
 
+import SuperAdminDashboard from "./pages/superAdmin/SuperAdminDashboard";
+import SuperAdminProfile from "./pages/superAdmin/SuperAdminProfile";
 // shared route 
 import ChangePasswordPage from "./pages/shared/ChangePasswordPage";
 
@@ -102,6 +104,28 @@ const App: React.FC = () => {
           <Route path="profile" element={<AdminProfile />} />
         </Route>
 
+        {/* SUPER ADMIN ROUTES */}
+        <Route path="/superadmin" element={<SuperAdminDashboard />}>
+
+  {/* 🏠 Main Dashboard */}
+  <Route index element={<div />} />
+
+  {/* 👨‍💼 Admins */}
+  {/* <Route path="admins" element={<Admins />} />
+
+  {/* 🏫 Colleges */}
+  {/* <Route path="colleges" element={<Colleges />} /> */}
+
+  {/* ➕ Create Admin */}
+  {/* <Route path="create-admin" element={<CreateAdmin />} /> */}
+
+  {/* ➕ Create College */}
+  {/* <Route path="create-college" element={<CreateCollege />} /> */ }
+
+  {/* 👤 Profile */}
+  <Route path="profile" element={<SuperAdminProfile />} />
+
+</Route>
 
           {/* SHARED ROUTES */}
            <Route path="/account/change-password" element={<ChangePasswordPage />} />
