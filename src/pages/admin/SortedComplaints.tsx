@@ -249,15 +249,18 @@ const SortedComplaints = () => {
         </select>
 
         <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-slate-800 border border-slate-700 text-sm px-3 py-2 rounded-lg text-white"
-        >
-          <option value="all">All Status</option>
-          <option value="open">Open</option>
-          <option value="in-progress">In Progress</option>
-          <option value="resolved">Resolved</option>
-        </select>
+  value={statusFilter}
+  onChange={(e) => setStatusFilter(e.target.value)}
+  className="bg-slate-800 border border-slate-700 text-sm px-3 py-2 rounded-lg text-white"
+>
+  <option value="all">All Status</option>
+  <option value="OPEN">Open</option>
+  <option value="IN_PROGRESS">In Progress</option>
+  <option value="ASSIGNED">Assigned</option>
+  <option value="RESOLVED">Resolved</option>
+  <option value="REJECTED">Rejected</option>
+  <option value="ESCALATED">Escalated</option>
+</select>
 
       </div>
 
