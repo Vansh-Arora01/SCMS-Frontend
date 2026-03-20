@@ -236,24 +236,39 @@ const StaffDashboard = () => {
             </h3>
 
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={workloadChartData}>
+  <BarChart data={workloadChartData}>
 
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+    {/* Grid */}
+    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
 
-                <XAxis dataKey="name" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+    {/* Axis */}
+    <XAxis dataKey="name" stroke="#94a3b8" />
+    <YAxis stroke="#94a3b8" />
 
-                <Tooltip />
-                <Legend />
+    {/* Tooltip (FIXED) */}
+    <Tooltip
+      contentStyle={{
+        backgroundColor: "#1e293b", // slate-800
+        border: "1px solid #334155",
+        borderRadius: "8px",
+        color: "#e2e8f0"
+      }}
+      labelStyle={{ color: "#cbd5f5" }}
+      cursor={{ fill: "rgba(99,102,241,0.1)" }} // hover effect
+    />
 
-                <Bar
-                  dataKey="value"
-                  fill="#6366f1"
-                  radius={[6,6,0,0]}
-                />
+    {/* Legend (FIXED) */}
+    <Legend wrapperStyle={{ color: "#cbd5f5" }} />
 
-              </BarChart>
-            </ResponsiveContainer>
+    {/* Bar */}
+    <Bar
+      dataKey="value"
+      radius={[6, 6, 0, 0]}
+      fill="#6366f1" // indigo
+    />
+
+  </BarChart>
+</ResponsiveContainer>
 
           </div>
         )}
