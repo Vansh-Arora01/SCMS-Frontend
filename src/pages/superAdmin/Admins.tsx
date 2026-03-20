@@ -9,7 +9,7 @@ const Admins = (): JSX.Element => {
 
   const fetchAdmins = async () => {
     const res = await superAdminService.getAdmins();
-    setAdmins(res.data.data); // ✅ fix based on ApiResponse
+    setAdmins(res.data); // ✅ fix based on ApiResponse
   };
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const Colleges = (): JSX.Element => {
     const fetchColleges = async () => {
       try {
         const res = await superAdminService.getColleges();
-        setColleges(res.data.data); // ✅ FIXED
+        setColleges(res.data); // ✅ FIXED
       } catch (err) {
         console.error("Error fetching colleges:", err);
       }

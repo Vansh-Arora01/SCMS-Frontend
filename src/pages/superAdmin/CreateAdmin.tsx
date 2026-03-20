@@ -19,7 +19,7 @@ const CreateAdmin = (): JSX.Element => {
     const fetchColleges = async () => {
       try {
         const res = await superAdminService.getColleges();
-        setColleges(res.data.data);
+        setColleges(res.data);
       } catch (err) {
         console.error("Error fetching colleges:", err);
       }
