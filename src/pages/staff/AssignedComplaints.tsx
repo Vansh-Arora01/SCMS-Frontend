@@ -88,7 +88,7 @@ const AssignedComplaints = () => {
           >
             <option value="ALL">All</option>
             <option value="IN_PROGRESS">In Progress</option>
-            <option value="OPEN">OPEN</option>
+            <option value="ASSIGNED">ASSIGNED</option>
 
             <option value="RESOLVED">Resolved</option>
             <option value="REJECTED">Rejected</option>
