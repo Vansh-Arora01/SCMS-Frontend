@@ -92,9 +92,9 @@ const ComplaintDetails = () => {
               {complaint.title}
             </h2>
 
-            <p className="text-slate-300 text-sm md:text-base whitespace-pre-line">
-              {complaint.description}
-            </p>
+            <p className="text-slate-300 text-sm md:text-base whitespace-pre-line break-words max-h-40 overflow-y-auto pr-2 custom-scrollbar">
+  {complaint.description}
+</p>
 
             {/* ✅ CREATED BY (NEW) */}
             <div className="text-sm text-slate-400">
