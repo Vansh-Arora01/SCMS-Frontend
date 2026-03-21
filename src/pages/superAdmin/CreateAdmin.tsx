@@ -11,7 +11,7 @@ const CreateAdmin = (): JSX.Element => {
     password: "",
     enrollment: "",
     collegeId: "",
-    college:"",
+    college: "", // ✅ REQUIRED for backend
   });
 
   const [colleges, setColleges] = useState<College[]>([]);
@@ -31,8 +31,24 @@ const CreateAdmin = (): JSX.Element => {
 
   const handleSubmit = async () => {
     try {
+      if (!form.college) {
+        alert("Please select a college ❗");
+        return;
+      }
+
       await superAdminService.createAdmin(form);
       alert("Admin created ✅");
+
+      // optional reset
+      setForm({
+        name: "",
+        email: "",
+        password: "",
+        enrollment: "",
+        collegeId: "",
+        college: "",
+      });
+
     } catch (err: any) {
       alert(err?.response?.data?.message);
     }
@@ -53,7 +69,6 @@ const CreateAdmin = (): JSX.Element => {
         Create Admin
       </h2>
 
-      {/* Form */}
       <div className="space-y-4">
 
         {/* Name */}
@@ -61,6 +76,7 @@ const CreateAdmin = (): JSX.Element => {
           <User className="absolute left-3 top-3 text-slate-400" size={16} />
           <input
             placeholder="Full Name"
+            value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             className="w-full pl-10 pr-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white 
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -73,6 +89,7 @@ const CreateAdmin = (): JSX.Element => {
           <input
             placeholder="Email Address"
             type="email"
+            value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             className="w-full pl-10 pr-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white 
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -84,6 +101,7 @@ const CreateAdmin = (): JSX.Element => {
           <Hash className="absolute left-3 top-3 text-slate-400" size={16} />
           <input
             placeholder="Enrollment Number"
+            value={form.enrollment}
             onChange={(e) => setForm({ ...form, enrollment: e.target.value })}
             className="w-full pl-10 pr-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white 
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -96,6 +114,7 @@ const CreateAdmin = (): JSX.Element => {
           <input
             type="password"
             placeholder="Password"
+            value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             className="w-full pl-10 pr-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white 
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -105,7 +124,16 @@ const CreateAdmin = (): JSX.Element => {
         {/* College Dropdown */}
         <div>
           <select
-            onChange={(e) => setForm({ ...form, collegeId: e.target.value })}
+            value={form.collegeId}
+            onChange={(e) => {
+              const selected = colleges.find(c => c._id === e.target.value);
+
+              setForm({
+                ...form,
+                collegeId: e.target.value,
+                college: selected?.name || "", // ✅ FIX HERE
+              });
+            }}
             className="w-full py-2 px-3 rounded-lg bg-slate-800 border border-slate-700 text-white 
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           >
@@ -120,13 +148,14 @@ const CreateAdmin = (): JSX.Element => {
 
       </div>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <motion.button
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
         onClick={handleSubmit}
+        disabled={!form.college}
         className="w-full mt-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 
-        text-white font-medium shadow-lg shadow-indigo-600/30 transition"
+        text-white font-medium shadow-lg shadow-indigo-600/30 transition disabled:opacity-50"
       >
         Create Admin
       </motion.button>
