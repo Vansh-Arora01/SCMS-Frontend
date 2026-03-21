@@ -286,6 +286,14 @@ const AdminDashboard = () => {
             Home
           </NavLink>
 
+          <NavLink
+            to="/admin"
+            className={navItemStyle} 
+          >
+            <Home size={18} />
+            <span >Dashboard</span>
+          </NavLink>
+
           <NavLink to="/admin/unassigned" className={navItemStyle}>
             <ClipboardList size={18} />
             Unassigned Complaints

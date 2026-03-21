@@ -77,6 +77,14 @@ const StaffSidebar = () => {
             <Home size={18} />
             <span className="text-sm md:text-base">Home</span>
           </NavLink>
+          <NavLink
+            to="/staff"
+            className={navStyle}
+            onClick={() => setOpen(false)}
+          >
+            <Home size={18} />
+            <span className="text-sm md:text-base">Dashboard</span>
+          </NavLink>
 
           <NavLink
             to="assigned"

@@ -75,6 +75,13 @@ const StudentDashboard = () => {
             <Home size={18} />
             Home
           </NavLink>
+           <NavLink
+            to="/student"
+            className={navItemStyle} 
+          >
+            <Home size={18} />
+            <span >Dashboard</span>
+          </NavLink>
 
           <NavLink to="/student/mycomplaints" end className={navItemStyle}>
             <FileText size={18} />
