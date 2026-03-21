@@ -11,6 +11,7 @@ const CreateAdmin = (): JSX.Element => {
     password: "",
     enrollment: "",
     collegeId: "",
+    college:"",
   });
 
   const [colleges, setColleges] = useState<College[]>([]);
