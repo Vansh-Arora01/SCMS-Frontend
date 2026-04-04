@@ -37,6 +37,7 @@ import UnassignedComplaints from "./pages/admin/UnassignedComplaints";
 import SortedComplaints from "./pages/admin/SortedComplaints";
 import ManageStaff from "./pages/admin/ManageStaff";
 import AdminProfile from "./pages/admin/AdminProfile";
+import AdminReassignmentPage from "./pages/admin/AdminReassignmentPage";
 
 import SuperAdminDashboard from "./pages/superAdmin/SuperAdminDashboard";
 import SuperAdminProfile from "./pages/superAdmin/SuperAdminProfile";
@@ -106,6 +107,7 @@ const App: React.FC = () => {
           <Route path="sorted" element={<SortedComplaints />} />
           <Route path="staff" element={<ManageStaff />} />
           <Route path="profile" element={<AdminProfile />} />
+          <Route path="reassignment" element={<AdminReassignmentPage />} />
         </Route>
 
         {/* SUPER ADMIN ROUTES */}
