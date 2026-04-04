@@ -1,13 +1,23 @@
-// import api from "./api.ts"; // adjust path if needed
+
+
+// import api from "./api";
 
 // export const useAdminService = () => {
 //   return {
-//     getUnassigned: () => api.get("/admin/unassigned"),
 
-//     assignComplaint: (id: string, data: any) =>
+//     getUnassigned: () =>
+//       api.get("/admin/unassigned"),
+
+//     assignComplaint: (
+//       id: string,
+//       data: { enrollment: string; name?: string }
+//     ) =>
 //       api.patch(`/admin/assign/${id}`, data),
 
-//     reassignComplaint: (id: string, data: any) =>
+//     reassignComplaint: (
+//       id: string,
+//       data: { assignedTo: string }
+//     ) =>
 //       api.patch(`/admin/reassign/${id}`, data),
 
 //     createStaff: (data: {
@@ -15,7 +25,6 @@
 //       email: string;
 //       password: string;
 //       department: string;
-      
 //       enrollment: string;
 //       role: "STAFF";
 //     }) =>
@@ -30,18 +39,16 @@
 //     getSortedComplaints: () =>
 //       api.get("/admin/sorted-by-department"),
 
-//     getAllStaff: () => 
-//    api.get("/admin/all-staff"),
+//     getAllStaff: () =>
+//       api.get("/admin/all-staff"),
 
-
-
-//   getAdminStats : () => 
-//   api.get("/admin/dashboard-stats"),
-  
-
+//     getAdminStats: () =>
+//       api.get("/admin/dashboard-stats")
 
 //   };
 // };
+
+
 import api from "./api";
 
 export const useAdminService = () => {
@@ -56,6 +63,18 @@ export const useAdminService = () => {
     ) =>
       api.patch(`/admin/assign/${id}`, data),
 
+    // 🔥 NEW: Handle approve/reject reassignment
+    handleReassignment: (
+      id: string,
+      data: { action: "APPROVE" | "REJECT"; newStaffId?: string }
+    ) =>
+      api.put(`/admin/reassignment/${id}`, data),
+
+    // 🔥 NEW: Get all pending reassignment requests
+    getReassignmentRequests: () =>
+      api.get("/admin/reassignment-requests"),
+
+    // (Optional) keep if you want manual reassignment feature
     reassignComplaint: (
       id: string,
       data: { assignedTo: string }
@@ -86,6 +105,5 @@ export const useAdminService = () => {
 
     getAdminStats: () =>
       api.get("/admin/dashboard-stats")
-
   };
 };
