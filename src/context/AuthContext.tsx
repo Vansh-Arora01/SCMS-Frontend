@@ -72,7 +72,8 @@ const checkAuth = useCallback(async () => {
   try {
     await authService.register(data);
     toast.success("Account created successfully!");
-    navigate("/login"); // ✅ redirect after register
+    navigate("/login"); 
+    // ✅ redirect after register
   } catch (error) {
     throw error;
   }
@@ -82,7 +83,10 @@ const checkAuth = useCallback(async () => {
       await authService.logout();
       setUser(null);
       navigate('/login');
-      toast.success('Logged out successfully');
+      toast.success('Logged out successfully',{
+        duration: 2000
+      });
+      
     } catch (error) {
       console.error('Logout error:', error);
     }
