@@ -131,7 +131,7 @@ const Features: React.FC = () => {
 
 
           {/* Bottom CTA */}
-          <motion.div variants={fadeInUp} className="text-center pt-8">
+          {/* <motion.div variants={fadeInUp} className="text-center pt-8">
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 20px 60px rgba(168, 85, 247, 0.4)' }}
               whileTap={{ scale: 0.95 }}
@@ -142,7 +142,7 @@ const Features: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </motion.button>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
     </section>
