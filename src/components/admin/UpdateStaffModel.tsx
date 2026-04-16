@@ -1,55 +1,68 @@
 import { useState } from "react";
-import { useAdminService } from "../../services/admin.service";
 import { toast } from "sonner";
+import { useAdminService } from "../../services/admin.service";
+import { useEffect } from "react";
 
 interface Props {
   onClose: () => void;
+  staff: {
+    _id: string;
+    name: string;
+    email: string;
+    department: string;
+    enrollment: string;
+  };
 }
 
-const CreateStaffModal = ({ onClose }: Props) => {
-  const { createStaff } = useAdminService(); //  use hook pattern
+const UpdateStaffModal = ({ onClose, staff }: Props) => {
+  const { updateStaff } = useAdminService();
 
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: "",
     department: "",
-    
     enrollment: "",
   });
 
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+  if (staff) {
+    setForm({
+      name: staff.name,
+      email: staff.email,
+      department: staff.department,
+      enrollment: staff.enrollment,
+    });
+  }
+}, [staff]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    const { name, email, password, department,  enrollment } = form;
+  const { name, email, department, enrollment } = form;
 
-    if (!name || !email || !password || !department ||  !enrollment) {
-      toast.error("All fields are required");
-      return;
-    }
+  if (!name || !email || !department || !enrollment) {
+    toast.error("All fields are required");
+    return;
+  }
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await createStaff({
-        ...form,
-        role: "STAFF",
-         // ✅ required by backend
-      });
+    await updateStaff(staff._id, form); // ✅ FIXED
 
-      toast.success("Staff created successfully 🚀");
-      onClose();
+    toast.success("Staff updated successfully 🚀");
+    onClose();
 
-    } catch (error) {
-      // handled by axios interceptor
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    toast.error("Update failed");
+  } finally {
+    setLoading(false);
+  }
+};
+  
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
@@ -57,8 +70,8 @@ const CreateStaffModal = ({ onClose }: Props) => {
       <div className="w-full max-w-md bg-gradient-to-br from-[#0f172a] to-[#1e293b] border border-white/10 rounded-3xl shadow-2xl p-8">
 
         <h2 className="text-2xl font-semibold text-indigo-400 mb-6">
-          Create Staff Member
-        </h2>
+  Update Staff Member
+</h2>
 
         <div className="space-y-4">
 
@@ -80,14 +93,7 @@ const CreateStaffModal = ({ onClose }: Props) => {
             className="w-full p-3 rounded-xl bg-white/10 border border-white/10 focus:border-indigo-500 focus:outline-none transition"
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full p-3 rounded-xl bg-white/10 border border-white/10 focus:border-indigo-500 focus:outline-none transition"
-          />
+          
 
           {/* <select
   name="department"
@@ -141,7 +147,7 @@ const CreateStaffModal = ({ onClose }: Props) => {
             disabled={loading}
             className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 transition disabled:opacity-50"
           >
-            {loading ? "Creating..." : "Create Staff"}
+            {loading ? "Updating..." : "Update Staff"}
           </button>
 
         </div>
@@ -151,4 +157,4 @@ const CreateStaffModal = ({ onClose }: Props) => {
   );
 };
 
-export default CreateStaffModal;
+export default UpdateStaffModal;

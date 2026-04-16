@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAdminService } from "../../services/admin.service";
 import CreateStaffModal from "../../components/admin/CreateStaffModal";
+import UpdateStaffModal from "../../components/admin/UpdateStaffModel";
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
+import { toast } from "sonner";
 
 interface Staff {
   _id: string;
@@ -14,8 +16,9 @@ interface Staff {
 }
 
 const ManageStaff = () => {
-  const { getAllStaff } = useAdminService();
-
+  const { getAllStaff ,updateStaff ,deleteStaff} = useAdminService();
+const [editOpen, setEditOpen] = useState(false);
+const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
   const [open, setOpen] = useState(false);
   const [staffList, setStaffList] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,6 +36,33 @@ const ManageStaff = () => {
       setLoading(false);
     }
   };
+  const handleUpdate = async (id: string, data: any) => {
+  await updateStaff(id, data);
+
+  // Update UI instantly
+  setStaffList(prev =>
+    prev.map(s => (s._id === id ? { ...s, ...data } : s))
+  );
+};
+const handleDelete = (id: string) => {
+  toast("Delete this staff?", {
+    description: "This action cannot be undone.",
+    action: {
+      label: "Delete",
+      onClick: async () => {
+        try {
+          await deleteStaff(id);
+
+          setStaffList(prev => prev.filter(s => s._id !== id));
+
+          toast.success("Staff deleted successfully 🗑️");
+        } catch (error) {
+          toast.error("Delete failed");
+        }
+      },
+    },
+  });
+};
 
   return (
     <motion.div
@@ -62,6 +92,8 @@ const ManageStaff = () => {
         >
           + Create Staff
         </button>
+       
+
 
       </div>
 
@@ -111,6 +143,33 @@ const ManageStaff = () => {
                 College: {staff.college}
               </p>
 
+              <div className="flex items-center gap-2 mt-4">
+
+  {/* Edit */}
+  <button
+    onClick={() => {
+      setSelectedStaff(staff);
+      setEditOpen(true);
+    }}
+    className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg 
+               bg-blue-500/10 text-blue-400 border border-blue-500/20 
+               hover:bg-blue-500/20 hover:border-blue-400 transition"
+  >
+    ✏️ Edit
+  </button>
+
+  {/* Delete */}
+  <button
+    onClick={() => handleDelete(staff._id)}
+    className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg 
+               bg-red-500/10 text-red-400 border border-red-500/20 
+               hover:bg-red-500/20 hover:border-red-400 transition"
+  >
+    🗑 Delete
+  </button>
+
+</div>
+
             </motion.div>
           ))
         )}
@@ -126,6 +185,12 @@ const ManageStaff = () => {
           }}
         />
       )}
+      {editOpen && selectedStaff && (
+  <UpdateStaffModal
+    staff={selectedStaff}
+    onClose={() => setEditOpen(false)}
+  />
+)}
 
     </motion.div>
   );

@@ -91,6 +91,15 @@ export const useAdminService = () => {
     }) =>
       api.post("/admin/createStaff", data),
 
+
+      updateStaff: (id: string, data: {
+        name?: string;
+        email?: string; 
+        department?: string;
+      enrollment?: string;
+      }) =>
+        api.put(`/admin/update/${id}`, data),
+
     deleteStaff: (id: string) =>
       api.delete(`/admin/${id}`),
 
