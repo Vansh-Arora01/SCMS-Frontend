@@ -150,6 +150,7 @@ const handleDelete = (id: string) => {
     onClick={() => {
       setSelectedStaff(staff);
       setEditOpen(true);
+      
     }}
     className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg 
                bg-blue-500/10 text-blue-400 border border-blue-500/20 
@@ -189,6 +190,7 @@ const handleDelete = (id: string) => {
   <UpdateStaffModal
     staff={selectedStaff}
     onClose={() => setEditOpen(false)}
+    onUpdate={handleUpdate}
   />
 )}
 

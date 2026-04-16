@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { useAdminService } from "../../services/admin.service";
+// import { useAdminService } from "../../services/admin.service";
 import { useEffect } from "react";
 
 interface Props {
@@ -11,11 +11,13 @@ interface Props {
     email: string;
     department: string;
     enrollment: string;
+    
   };
+  onUpdate: (id: string, data: any) => Promise<void>;
 }
 
-const UpdateStaffModal = ({ onClose, staff }: Props) => {
-  const { updateStaff } = useAdminService();
+const UpdateStaffModal = ({ onClose, staff,onUpdate }: Props) => {
+//   const { updateStaff } = useAdminService();
 
   const [form, setForm] = useState({
     name: "",
@@ -51,7 +53,7 @@ const UpdateStaffModal = ({ onClose, staff }: Props) => {
   try {
     setLoading(true);
 
-    await updateStaff(staff._id, form); // ✅ FIXED
+    await onUpdate(staff._id, form); // ✅ FIXED
 
     toast.success("Staff updated successfully 🚀");
     onClose();
