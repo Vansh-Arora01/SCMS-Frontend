@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { superAdminService } from "../../services/superadmin.service";
 import { Admin } from "../../types/superadmin.types";
 import { motion } from "framer-motion";
-import {  Mail, Building2, Trash2 } from "lucide-react";
+import { Mail, Building2, Trash2 } from "lucide-react";
 
 const Admins = (): JSX.Element => {
+  
   const [admins, setAdmins] = useState<Admin[]>([]);
 
   const fetchAdmins = async () => {
@@ -22,6 +23,28 @@ const Admins = (): JSX.Element => {
     await superAdminService.deleteAdmin(id);
     fetchAdmins();
   };
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
+const openUpdateModal = (admin:Admin) => {
+  setSelectedAdmin(admin);
+  setIsUpdateOpen(true);
+};
+const handleUpdate = async () => {
+  try {
+    if (!selectedAdmin) return;
+
+await superAdminService.updateAdmin(selectedAdmin._id, selectedAdmin);
+
+    alert("Admin updated successfully");
+
+    setIsUpdateOpen(false);
+    fetchAdmins(); // refresh list
+  } catch (error) {
+    console.error(error);
+    alert("Update failed");
+  }
+};
+
 
   return (
     <motion.div
@@ -32,19 +55,13 @@ const Admins = (): JSX.Element => {
     >
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-white">
-          Admin Management
-        </h2>
-        <p className="text-sm text-slate-400">
-          Total: {admins.length}
-        </p>
+        <h2 className="text-2xl font-semibold text-white">Admin Management</h2>
+        <p className="text-sm text-slate-400">Total: {admins.length}</p>
       </div>
 
       {/* Empty State */}
       {admins.length === 0 && (
-        <div className="text-center text-slate-400 py-10">
-          No admins found
-        </div>
+        <div className="text-center text-slate-400 py-10">No admins found</div>
       )}
 
       {/* Cards */}
@@ -69,18 +86,13 @@ const Admins = (): JSX.Element => {
               </div>
 
               <div>
-                <h3 className="text-white font-semibold">
-                  {a.name}
-                </h3>
-                <p className="text-xs text-slate-400">
-                  Admin
-                </p>
+                <h3 className="text-white font-semibold">{a.name}</h3>
+                <p className="text-xs text-slate-400">Admin</p>
               </div>
             </div>
 
             {/* Info */}
             <div className="space-y-2 text-sm">
-
               <div className="flex items-center gap-2 text-slate-300">
                 <Mail size={14} className="text-indigo-400" />
                 {a.email}
@@ -90,11 +102,20 @@ const Admins = (): JSX.Element => {
                 <Building2 size={14} className="text-purple-400" />
                 {a.collegeId?.name || "No College"}
               </div>
-
             </div>
 
             {/* Actions */}
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-end gap-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => openUpdateModal(a)} // pass full admin object
+                className="flex items-center gap-2 px-3 py-1.5 text-sm 
+    bg-blue-500/10 text-blue-400 border border-blue-500/30 
+    rounded-lg hover:bg-blue-500/20 transition"
+              >
+                ✏️ Update
+              </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -107,10 +128,59 @@ const Admins = (): JSX.Element => {
                 Delete
               </motion.button>
             </div>
-
           </motion.div>
         ))}
       </div>
+      {isUpdateOpen && selectedAdmin && (
+  <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    
+    <div className="bg-slate-900 p-6 rounded-xl w-96 border border-slate-700">
+      <h2 className="text-lg font-semibold text-white mb-4">
+        Update Admin
+      </h2>
+
+      {/* Name */}
+      <input
+        type="text"
+         value={selectedAdmin?.name || ""}
+        onChange={(e) =>
+          setSelectedAdmin({ ...selectedAdmin, name: e.target.value })
+        }
+        className="w-full mb-3 p-2 rounded bg-slate-800 text-white"
+        placeholder="Name"
+      />
+
+      {/* Email */}
+      <input
+        type="email"
+        value={selectedAdmin?.email || ""}
+        onChange={(e) =>
+          setSelectedAdmin({ ...selectedAdmin, email: e.target.value })
+        }
+        className="w-full mb-3 p-2 rounded bg-slate-800 text-white"
+        placeholder="Email"
+      />
+
+      {/* Buttons */}
+      <div className="flex justify-end gap-2 mt-4">
+        <button
+          onClick={() => setIsUpdateOpen(false)}
+          className="px-3 py-1 bg-gray-600 rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleUpdate}
+          className="px-3 py-1 bg-blue-600 rounded"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
+  </div>
+)}
     </motion.div>
   );
 };

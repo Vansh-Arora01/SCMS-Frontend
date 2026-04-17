@@ -25,6 +25,10 @@ export const superAdminService = {
     const res = await api.delete(`/superadmin/${id}`); // ✅ FIXED
     return res.data;
   },
+  updateAdmin: async (id: string, data: any) => {
+    const res = await api.put(`/superadmin/update/${id}`, data);
+    return res.data;
+  },
 
   // 🔍 Filter admins
   getAdminsByCollege: async (collegeId: string) => {
