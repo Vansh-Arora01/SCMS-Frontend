@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { superAdminService } from "../../services/superadmin.service";
 import { Admin } from "../../types/superadmin.types";
 import { motion } from "framer-motion";
-import { Mail, Building2, Trash2 } from "lucide-react";
+import { Mail, Building2, Trash2, Pen } from "lucide-react";
+import { toast } from "sonner";
 
 const Admins = (): JSX.Element => {
   
@@ -35,13 +36,13 @@ const handleUpdate = async () => {
 
 await superAdminService.updateAdmin(selectedAdmin._id, selectedAdmin);
 
-    alert("Admin updated successfully");
+    toast.success("Admin updated successfully");
 
     setIsUpdateOpen(false);
     fetchAdmins(); // refresh list
   } catch (error) {
     console.error(error);
-    alert("Update failed");
+    toast.error("Update failed");
   }
 };
 
@@ -113,8 +114,9 @@ await superAdminService.updateAdmin(selectedAdmin._id, selectedAdmin);
                 className="flex items-center gap-2 px-3 py-1.5 text-sm 
     bg-blue-500/10 text-blue-400 border border-blue-500/30 
     rounded-lg hover:bg-blue-500/20 transition"
-              >
-                ✏️ Update
+              > 
+              <Pen size={14} />
+                 Update
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}

@@ -3,7 +3,7 @@ import { useAdminService } from "../../services/admin.service";
 import CreateStaffModal from "../../components/admin/CreateStaffModal";
 import UpdateStaffModal from "../../components/admin/UpdateStaffModel";
 import { motion } from "framer-motion";
-import { Users } from "lucide-react";
+import { Pencil, Users,Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Staff {
@@ -156,7 +156,8 @@ const handleDelete = (id: string) => {
                bg-blue-500/10 text-blue-400 border border-blue-500/20 
                hover:bg-blue-500/20 hover:border-blue-400 transition"
   >
-    ✏️ Edit
+    <Pencil size={14} />
+     Edit
   </button>
 
   {/* Delete */}
@@ -166,7 +167,8 @@ const handleDelete = (id: string) => {
                bg-red-500/10 text-red-400 border border-red-500/20 
                hover:bg-red-500/20 hover:border-red-400 transition"
   >
-    🗑 Delete
+    <Trash2 size={14} />
+     Delete
   </button>
 
 </div>
